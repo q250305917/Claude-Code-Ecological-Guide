@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>插件系统 - Claude Code 生态系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-5px);
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .component-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .component-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .component-card h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+
+        .component-card .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+        }
+
+        .component-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .component-card ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .component-card ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-left: 5px solid #ff6b6b;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 {
+            color: #d63031;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            white-space: pre;
+        }
+
+        .workflow-steps {
+            counter-reset: step;
+            margin: 30px 0;
+        }
+
+        .workflow-step {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 25px;
+        }
+
+        .workflow-step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .header, .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 返回目录</a>
+
+        <div class="header">
+            <h1>🔌 Claude Code 插件系统</h1>
+            <p>
+                还在为团队开发规范不统一而头疼？还在手动配置各种复杂的开发环境？
+                Claude Code最新版本带来的插件系统，可能会彻底改变你的工作方式。
+            </p>
+            <p style="margin-top: 15px;">
+                想象一下：你辛辛苦苦配置好了一套完美的代码审查流程，包括各种自定义命令、
+                安全检查脚本、性能分析工具…结果新来的同事要从头配置一遍，光是讲解就要半小时。
+            </p>
+            <p style="margin-top: 15px;">
+                <strong>现在？只需要一行命令，10秒钟，整套工作流就安装好了。</strong>
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>🎯 四大核心优势</h2>
+            
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <h4>一键打包，告别重复配置</h4>
+                    <p>
+                        把各种定制化配置打包成一个整体。团队规范、测试脚本、部署流程、
+                        代码审查标准…这些以前需要写文档、开会讲解、手把手教的东西，
+                        现在都能变成一个可安装的插件。
+                    </p>
+                </div>
+                <div class="workflow-step">
+                    <h4>四大组件，随心组合</h4>
+                    <p>
+                        斜杠命令、子代理、事件钩子、MCP服务器——这四个组件就像乐高积木，
+                        你可以根据实际需求自由组合。
+                    </p>
+                </div>
+                <div class="workflow-step">
+                    <h4>插件市场，站在巨人肩膀</h4>
+                    <p>
+                        从插件市场安装别人分享的优秀工作流。涵盖DevOps自动化、文档生成、
+                        项目管理、测试套件等各个方面。
+                    </p>
+                </div>
+                <div class="workflow-step">
+                    <h4>统一管理，保持最新</h4>
+                    <p>
+                        自带版本管理和自动更新功能。确保所有人使用相同版本的工具，
+                        避免"在我电脑上能跑"的尴尬。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🧩 四大核心组件深度解析（2025版）</h2>
+
+            <div class="components-grid">
+                <div class="component-card">
+                    <span class="badge">Slash Commands</span>
+                    <h3>斜杠命令</h3>
+                    <p>创建你自己的快捷指令，是工作流自动化的快捷方式</p>
+                    <ul>
+                        <li><strong>本质</strong>：预定义的提示词模板</li>
+                        <li><strong>触发</strong>：通过/命令前缀快速调用</li>
+                        <li><strong>参数化</strong>：支持动态参数传递</li>
+                        <li><strong>与Skills区别</strong>：Commands保留工具控制，Skills是完整代理</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>2025新特性：</strong><br>
+                        • 可保存为可复用命令<br>
+                        • 支持CI/CD集成<br>
+                        • Git工作流完全可用
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <span class="badge">Subagents</span>
+                    <h3>子代理（专用Agent）</h3>
+                    <p>专门处理特定任务的AI助手，拥有独立的系统提示词</p>
+                    <ul>
+                        <li><strong>定制化</strong>：任务特定的指令和约束</li>
+                        <li><strong>工具集</strong>：只开放相关工具</li>
+                        <li><strong>隔离性</strong>：独立于主Claude配置</li>
+                        <li><strong>并行</strong>：可同时运行多个子代理</li>
+                    </ul>
+                </div>
+
+                <div class="component-card">
+                    <span class="badge">Event Hooks</span>
+                    <h3>事件钩子（2025核心）</h3>
+                    <p>在关键生命周期节点自动执行shell脚本</p>
+                    <ul>
+                        <li><strong>ask_user_question</strong>：用户问题提交时</li>
+                        <li><strong>user_prompt_submit</strong>：提示提交时</li>
+                        <li><strong>tool_calling</strong>：调用工具前后</li>
+                        <li><strong>session_end</strong>：会话结束时</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>关键能力：</strong><br>
+                        • 实时拦截和验证<br>
+                        • 策略强制执行<br>
+                        • 自动化日志记录<br>
+                        • Stop Hook（退出码2）
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <span class="badge">MCP Servers</span>
+                    <h3>MCP服务器</h3>
+                    <p>通过标准协议连接外部工具、API和数据源</p>
+                    <ul>
+                        <li><strong>协议</strong>：基于JSON-RPC 2.0</li>
+                        <li><strong>工具暴露</strong>：外部工具→Claude可用</li>
+                        <li><strong>数据访问</strong>：数据库、知识图谱、API</li>
+                        <li><strong>双向通信</strong>：调用和接收数据</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 30px;">
+                <h4>🔥 Hooks系统：2025年的游戏规则改变者</h4>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    <strong>2025年7月9日</strong>，Claude Code正式发布了Hooks功能，这彻底改变了自动化游戏规则。
+                    Hooks不再只是简单的"在前后执行脚本"，而是提供了<strong>实时拦截、验证、修改</strong>的能力。
+                </p>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    最关键的<strong>Stop Hook</strong>可以通过返回退出码2来阻止Claude退出，
+                    这正是Ralph Wiggum插件能够实现自动迭代的核心机制。
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🚀 快速上手</h2>
+            
+            <h3>第一步：确保版本正确</h3>
+            <div class="code-block"># 安装Claude Code
+npm install -g @anthropic-ai/claude-code
+
+# 升级到最新版（2.0.14或更高）
+npm update -g @anthropic-ai/claude-code</div>
+
+            <h3>第二步：添加插件市场</h3>
+            <div class="code-block"># 启动Claude Code
+claude
+
+# 添加官方插件市场
+/plugin marketplace add anthropics/claude-code-plugins</div>
+
+            <h3>第三步：安装你的第一个插件</h3>
+            <div class="code-block"># 打开插件菜单
+/plugin
+
+# 选择"1. 浏览并安装插件"
+# 用方向键选择插件，按Enter确认安装
+# 重启Claude Code即可使用</div>
+        </div>
+
+        <div class="section">
+            <h2>💡 实战案例：代码审查插件</h2>
+            
+            <h3>项目结构</h3>
+            <div class="code-block">code-review-plugin/
+├── .claude-plugin/
+│   ├── plugin.json          # 插件清单
+│   └── marketplace.json     # 市场配置
+├── commands/                # 自定义命令
+│   ├── review.md
+│   ├── security-review.md
+│   └── performance-review.md
+├── agents/                  # 子代理
+│   ├── security-agent.md
+│   └── architecture-agent.md
+├── hooks/                   # 事件钩子
+│   └── hooks.json
+└── scripts/                 # 辅助脚本
+└── pre-write-check.sh</div>
+
+            <h3>插件清单示例</h3>
+            <div class="code-block">
+{
+  "name": "code-review-pro",
+  "version": "1.0.0",
+  "description": "全面的代码审查工具包",
+  "author": {
+    "name": "Your Team",
+    "email": "[email protected]"
+  },
+  "keywords": [
+    "code-review",
+    "security",
+    "quality"
+  ],
+  "license": "MIT"
+}</div>
+
+            <h3>自定义命令示例</h3>
+            <div class="code-block">---
+description: 全面的代码质量审查
+argument-hint: [file-or-directory] [focus-area]
+---
+
+# 代码审查指南
+
+请对 $1 进行代码审查${2:+，重点关注 $2}。
+
+## 审查优先级
+
+### 🔴 严重问题（必须修复）
+- **安全漏洞**: SQL注入、XSS、CSRF
+- **逻辑错误**: 运行时错误或数据损坏
+- **资源泄漏**: 未关闭的连接、内存泄漏
+
+### 🟡 重要问题（强烈建议）
+- **性能瓶颈**: 低效算法
+- **可维护性**: 过度复杂、缺少注释
+- **错误处理**: 缺失或不当的异常处理</div>
+
+            <h3>事件钩子配置</h3>
+            <div class="code-block">
+{
+  "description": "代码审查自动化钩子",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '✓ 文件已修改，建议运行 /review'",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '💡 会话结束。考虑运行 /security-review'",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}</div>
+        </div>
+
+        <div class="section">
+            <h2>🌟 插件市场生态深度解析（2025版）</h2>
+
+            <h3>🚀 官方优质插件深度分析</h3>
+
+            <div class="components-grid">
+                <div class="component-card">
+                    <span class="badge">Agent SDK</span>
+                    <h3>Claude Agent SDK</h3>
+                    <p><strong>核心定位</strong>：快速开发AI智能体的脚手架工具，2025年9月正式发布</p>
+                    <ul>
+                        <li><strong>工具集</strong>：帮助开发者在Claude Code上构建强大的AI代理</li>
+                        <li><strong>MCP集成</strong>：原生支持MCP（Model Context Protocol）动态工具发现</li>
+                        <li><strong>多Agent系统</strong>：支持构建复杂的多Agent协作系统</li>
+                        <li><strong>长运行Agent</strong>：跨多个上下文窗口工作的Agent支持</li>
+                        <li><strong>IDE集成</strong>：与主流IDE深度集成的开发框架</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>2025新特性：</strong><br>
+                        • 高级工具使用（Advanced Tool Use）<br>
+                        • 代码执行与MCP集成<br>
+                        • 12大框架对比领先地位
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <span class="badge">自动迭代</span>
+                    <h3>Ralph Wiggum</h3>
+                    <p><strong>核心定位</strong>：自动迭代，持续优化直到完成</p>
+                    <ul>
+                        <li><strong>Stop Hook机制</strong>：通过退出码2阻止Claude退出，实现自动迭代</li>
+                        <li><strong>零干预Bug修复</strong>：自动识别问题并持续修复直到通过测试</li>
+                        <li><strong>功能补全</strong>：自动补充未完成的功能实现</li>
+                        <li><strong>可控优化</strong>：通过completion-promise控制停止条件</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>核心机制：</strong><br>
+                        • Stop Hook拦截退出<br>
+                        • 可验证交付承诺<br>
+                        • 详细变更日志记录
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <span class="badge">代码质量</span>
+                    <h3>Code Review Pro</h3>
+                    <p><strong>核心定位</strong>：全面的代码审查和安全检查</p>
+                    <ul>
+                        <li><strong>安全审查</strong>：OWASP Top 10漏洞检测（SQL注入、XSS等）</li>
+                        <li><strong>代码质量</strong>：代码异味检测、复杂度分析、命名规范检查</li>
+                        <li><strong>性能优化</strong>：性能瓶颈识别、优化建议生成</li>
+                        <li><strong>最佳实践</strong>：团队编码规范强制执行</li>
+                        <li><strong>集成能力</strong>：与CI/CD流水线无缝集成</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>2025增强：</strong><br>
+                        • AI驱动的漏洞解释<br>
+                        • 自动修复建议<br>
+                        • 历史趋势分析
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <span class="badge">DevOps</span>
+                    <h3>DevOps Automation</h3>
+                    <p><strong>核心定位</strong>：CI/CD流程自动化</p>
+                    <ul>
+                        <li><strong>自动化构建</strong>：触发自动构建、测试、部署流程</li>
+                        <li><strong>环境管理</strong>：多环境配置自动化管理</li>
+                        <li><strong>回滚机制</strong>：一键回滚到任意历史版本</li>
+                        <li><strong>监控告警</strong>：部署状态实时监控和异常告警</li>
+                        <li><strong>流水线编排</strong>：可视化流水线设计器</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>集成能力：</strong><br>
+                        • GitHub Actions<br>
+                        • GitLab CI/CD<br>
+                        • Jenkins、CircleCI
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <span class="badge">文档生成</span>
+                    <h3>Documentation Generator</h3>
+                    <p><strong>核心定位</strong>：自动生成项目文档</p>
+                    <ul>
+                        <li><strong>API文档</strong>：从代码注释自动生成API文档</li>
+                        <li><strong>README生成</strong>：智能分析项目生成标准README</li>
+                        <li><strong>架构图</strong>：自动生成系统架构和流程图</li>
+                        <li><strong>变更日志</strong>：从Git提交历史自动生成Changelog</li>
+                        <li><strong>多格式输出</strong>：支持Markdown、HTML、PDF等多种格式</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>智能特性：</strong><br>
+                        • 代码语义分析<br>
+                        • 示例代码生成<br>
+                        • 多语言支持
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 25px;">
+                <h4>💡 2025年插件生态洞察</h4>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    <strong>从单一工具到平台化演进</strong>：2025年的Claude Code插件生态已经从简单的命令脚本发展为完整的平台化解决方案。
+                </p>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    <strong>Agent SDK成为基础设施</strong>：随着9月份Agent SDK的正式发布，插件开发进入了新的阶段。
+                    开发者不再需要从零开始，而是基于成熟的SDK快速构建专业化Agent。
+                </p>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    <strong>MCP协议标准化</strong>：Model Context Protocol成为工具集成的事实标准，
+                    让插件能够动态发现和使用外部工具，大大扩展了能力边界。
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💡 开发建议</h2>
+            
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <h4>从小处着手</h4>
+                    <p>不要一开始就做大而全的插件。从解决一个具体痛点开始，小步快跑，逐步完善</p>
+                </div>
+                <div class="workflow-step">
+                    <h4>重视文档</h4>
+                    <p>好的插件一定要有清晰的说明文档。告诉用户这个插件是干什么的，怎么用</p>
+                </div>
+                <div class="workflow-step">
+                    <h4>善用社区资源</h4>
+                    <p>GitHub上已经有不少优质插件可以参考学习。看看别人怎么组织代码</p>
+                </div>
+                <div class="workflow-step">
+                    <h4>定期更新</h4>
+                    <p>开发环境、最佳实践都在不断演进，插件也要跟着更新</p>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 30px;">
+                <h4>💭 核心价值</h4>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    Claude Code的插件系统，本质上是在解决<strong>"知识如何传递"</strong>的问题。
+                    以前，团队的最佳实践靠文档、靠会议、靠师傅带徒弟。
+                    现在，插件把这些隐性知识显性化、代码化、可复用化。
+                </p>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    一个优秀的工作流，可以被打包成插件，在全球范围内分享使用。
+                    这种方式不仅更高效，还能形成正向反馈——用的人多了，反馈多了，
+                    插件质量也会越来越高。
+                </p>
+            </div>
+        </div>
+
+        <!-- <div class="section">
+            <h2>🔗 相关资源与参考资料（2025更新）</h2>
+
+            <h3>Claude Agent SDK 相关资源</h3>
+            <ul style="line-height: 2;">
+                <li>📖 <a href="https://www.anthropic.com/engineering/building-agents-with-the-claude-agent-sdk" target="_blank" style="color: #667eea;">Building agents with the Claude Agent SDK - Anthropic官方（2025年9月）</a></li>
+                <li>📖 <a href="https://www.anthropic.com/engineering/advanced-tool-use" target="_blank" style="color: #667eea;">Introducing advanced tool use on Claude Developer Platform（2025年11月）</a></li>
+                <li>📖 <a href="https://skywork.ai/blog/claude-agent-sdk-best-practices-ai-agents-2025/" target="_blank" style="color: #667eea;">Claude Agent SDK Best Practices for AI Agent Development (2025)</a></li>
+                <li>📖 <a href="https://clickhouse.com/blog/how-to-build-ai-agents-mcp-12-frameworks" target="_blank" style="color: #667eea;">How to build AI agents with MCP: 12 framework comparison (2025)</a></li>
+                <li>📖 <a href="https://www.anthropic.com/engineering/code-execution-with-mcp" target="_blank" style="color: #667eea;">Code execution with MCP: building more efficient AI agents</a></li>
+                <li>📖 <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents" target="_blank" style="color: #667eea;">Effective harnesses for long-running agents（2025年11月）</a></li>
+                <li>📖 <a href="https://medium.com/@abhinav.dobhal/building-autonomous-ai-agents-with-the-claude-agent-sdk-a-complete-guide-feb1a3962387" target="_blank" style="color: #667eea;">Building Autonomous AI Agents with the Claude Agent SDK（2025年10月）</a></li>
+            </ul>
+
+            <h3>插件系统综合资源</h3>
+            <ul style="line-height: 2;">
+                <li>📖 <a href="https://alexop.dev/posts/understanding-claude-code-full-stack/" target="_blank" style="color: #667eea;">Understanding Claude Code's Full Stack: MCP, Skills, Hooks</a></li>
+                <li>📖 <a href="https://medium.com/@joe.njenga/claude-code-2025-summary-from-launch-to-beast-timeline-features-full-breakdown-45e5f3d8d5ff" target="_blank" style="color: #667eea;">Claude Code 2025 Summary: From Launch to Beast Timeline</a></li>
+                <li>📖 <a href="https://skywork.ai/blog/ai-agent/claude-code-plugin-2025-plugins-sonnet-4-5-developer-tools/" target="_blank" style="color: #667eea;">Claude Code Plugin 2025: How Plugins and Sonnet 4.5 Work Together</a></li>
+                <li>📖 <a href="https://blog.csdn.net/qq_44810930/article/details/156146071" target="_blank" style="color: #667eea;">Claude Code Hooks系统详解（中文）</a></li>
+                <li>📖 <a href="https://zhuanlan.zhihu.com/p/1961476188372448747" target="_blank" style="color: #667eea;">Claude Code插件系统详解：MCP、Sub Agents和Hooks</a></li>
+                <li>📖 <a href="https://www.youngleaders.tech/p/claude-skills-commands-subagents-plugins" target="_blank" style="color: #667eea;">Understanding Claude Code: Skills vs Commands vs Subagents vs Plugins</a></li>
+                <li>📖 <a href="https://dev.to/damogallagher/the-ultimate-claude-code-tips-collection-advent-of-claude-2025-5b73" target="_blank" style="color: #667eea;">The Ultimate Claude Code Tips Collection (2025)</a></li>
+                <li>📖 <a href="https://github.com/anthropics/claude-code/blob/main/plugins/README.md" target="_blank" style="color: #667eea;">Claude Code Plugins官方README</a></li>
+                <li>📖 <a href="https://github.com/applied-artificial-intelligence/claude-code-toolkit" target="_blank" style="color: #667eea;">Claude Code Toolkit - 生产验证的命令和技能集</a></li>
+                <li>📖 <a href="https://levelup.gitconnected.com/building-claude-code-plugins-the-complete-developers-guide-b642c951cade" target="_blank" style="color: #667eea;">Building Claude Code Plugins: Complete Developer's Guide</a></li>
+            </ul>
+        </div> -->
+    </div>
+</body>
+</html>

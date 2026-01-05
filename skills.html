@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills 技能系统 - Claude Code 生态系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-5px);
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .skill-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .skill-card h3 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .skill-card .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+        }
+
+        .skill-card p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-left: 5px solid #ff6b6b;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 {
+            color: #d63031;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            white-space: pre;
+        }
+
+        @media (max-width: 768px) {
+            .header, .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 返回目录</a>
+
+        <div class="header">
+            <h1>🛠️ Skills 技能系统</h1>
+            <p>
+                Skills是Claude Code中的预定义工作流程系统，让你能够通过简单的命令快速完成常见任务。
+                与插件系统不同，Skills更侧重于<strong>单一任务的专业化处理</strong>，
+                就像给Claude Code装上了各种"技能包"。
+            </p>
+            <p style="margin-top: 15px;">
+                从代码审查到文档生成，从Git操作到测试运行，Skills让复杂任务变成一条命令的事。
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>🎯 什么是Skills？（2025深度解析）</h2>
+
+            <div class="highlight-box">
+                <h4>💡 核心概念：可执行的专家知识</h4>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    <strong>Skills（技能）</strong>是Claude Code中的<strong>可执行专家知识</strong>，封装了完成特定任务所需的所有步骤、逻辑和最佳实践。
+                </p>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    2025年官方定义：<strong>Skills provide the expertise while Slash Commands execute the actions</strong>
+                    （技能提供专业知识，斜杠命令执行操作）。
+                </p>
+            </div>
+
+            <h3>🏗️ 技术架构</h3>
+            <p>Skills基于<strong>提示词元工具（Prompt-based Meta-tool）</strong>架构设计：</p>
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <h4>结构化组织</h4>
+                    <p>Skills由三部分组成：<strong>Instructions（指令）</strong>、<strong>Scripts（脚本）</strong>、<strong>Resources（资源）</strong></p>
+                </div>
+                <div class="workflow-step">
+                    <h4>上下文注入</h4>
+                    <p>使用<strong>双消息模式（Two-message pattern）</strong>：第一消息设置上下文，第二消息执行任务</p>
+                </div>
+                <div class="workflow-step">
+                    <h4>工具访问</h4>
+                    <p>Skill可以访问Claude Code的全部工具集，包括文件操作、Shell命令、Git等</p>
+                </div>
+                <div class="workflow-step">
+                    <h4>本地执行</h4>
+                    <p>支持本地代码执行和文件系统访问，真正的AI Agent能力</p>
+                </div>
+            </div>
+
+            <h3>⚖️ Skills vs Slash Commands 深度对比（2025版）</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <thead>
+                    <tr style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+                        <th style="padding: 15px; text-align: left;">维度</th>
+                        <th style="padding: 15px; text-align: left;">Skills</th>
+                        <th style="padding: 15px; text-align: left;">Slash Commands</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 15px;"><strong>设计意图</strong></td>
+                        <td style="padding: 15px;">提供<strong>专业知识</strong>和指导</td>
+                        <td style="padding: 15px;">执行<strong>特定操作</strong>和动作</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee; background: #f8f9fa;">
+                        <td style="padding: 15px;"><strong>触发方式</strong></td>
+                        <td style="padding: 15px;">Claude自动选择</td>
+                        <td style="padding: 15px;">用户手动调用（/命令）</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 15px;"><strong>行为模式</strong></td>
+                        <td style="padding: 15px;">完整的Agent代理</td>
+                        <td style="padding: 15px;">保存的提示词模板</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee; background: #f8f9fa;">
+                        <td style="padding: 15px;"><strong>工具访问</strong></td>
+                        <td style="padding: 15px;">完全工具权限</td>
+                        <td style="padding: 15px;">保留工具控制</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 15px;"><strong>上下文隔离</strong></td>
+                        <td style="padding: 15px;">独立的系统提示词</td>
+                        <td style="padding: 15px;">共享主Claude上下文</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 15px;"><strong>典型用途</strong></td>
+                        <td style="padding: 15px;">安全审计、代码审查等复杂任务</td>
+                        <td style="padding: 15px;">快速命令、工作流快捷方式</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box" style="margin-top: 20px;">
+                <h4>🔑 关键区别总结</h4>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    <strong>Skills</strong>是具有专业知识的AI代理，会自主思考如何完成任务；
+                    <strong>Slash Commands</strong>是预定义的提示词快捷方式，需要用户手动触发。
+                </p>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    两者功能相似但<strong>设计意图不同</strong>：Skills用于自动化复杂任务，
+                    Commands用于快速访问常用工作流。
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🚀 常用Skills深度解析（2025版）</h2>
+
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <span class="badge">代码质量</span>
+                    <h3>代码审查（Code Review）</h3>
+                    <p><strong>核心功能</strong>：自动检查代码质量、安全漏洞、性能问题，提供修复建议</p>
+                    <ul style="margin-top: 10px; padding-left: 20px; line-height: 1.6;">
+                        <li><strong>PR审查标准</strong>：基于2025年最新代码审查标准</li>
+                        <li><strong>安全扫描</strong>：新提交自动进行安全漏洞扫描</li>
+                        <li><strong>覆盖率要求</strong>：测试覆盖率必须达到80%以上</li>
+                        <li><strong>Changelog</strong>：发布时自动生成变更日志</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 8px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>2025增强：</strong>AI驱动的漏洞解释、自动修复建议
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="badge">文档</span>
+                    <h3>文档生成（Documentation）</h3>
+                    <p><strong>核心功能</strong>：从代码自动生成README、API文档、使用说明</p>
+                    <ul style="margin-top: 10px; padding-left: 20px; line-height: 1.6;">
+                        <li><strong>代码变更同步</strong>：代码变更时自动更新文档</li>
+                        <li><strong>API文档</strong>：从注释生成标准API文档</li>
+                        <li><strong>README智能生成</strong>：分析项目结构自动生成</li>
+                        <li><strong>多格式支持</strong>：Markdown、HTML、PDF输出</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 8px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>2025增强：</strong>代码语义分析、示例代码自动生成
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="badge">Git</span>
+                    <h3>Git操作（Git Workflow）</h3>
+                    <p><strong>核心功能</strong>：智能提交、分支管理、冲突解决、Changelog生成</p>
+                    <ul style="margin-top: 10px; padding-left: 20px; line-height: 1.6;">
+                        <li><strong>智能提交</strong>：分析变更自动生成提交信息</li>
+                        <li><strong>冲突解决</strong>：AI辅助的合并冲突处理</li>
+                        <li><strong>分支策略</strong>：支持GitFlow、GitHub Flow等工作流</li>
+                        <li><strong>批量重构</strong>：迭代式批量代码重构工作流</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 8px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>2025增强：</strong>VSCode Source Control UI深度集成
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="badge">测试</span>
+                    <h3>测试管理（Testing）</h3>
+                    <p><strong>核心功能</strong>：运行测试、生成覆盖率报告、失败用例分析</p>
+                    <ul style="margin-top: 10px; padding-left: 20px; line-height: 1.6;">
+                        <li><strong>TDD支持</strong>：测试驱动开发工作流</li>
+                        <li><strong>覆盖率要求</strong>：80%+测试覆盖率强制要求</li>
+                        <li><strong>失败分析</strong>：智能分析测试失败原因</li>
+                        <li><strong>自动测试</strong>：代码变更时自动运行相关测试</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 8px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>2025增强：</strong>20+实战验证的测试技能
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="badge">重构</span>
+                    <h3>代码重构（Refactoring）</h3>
+                    <p><strong>核心功能</strong>：识别代码异味、提供重构方案、自动应用改进</p>
+                    <ul style="margin-top: 10px; padding-left: 20px; line-height: 1.6;">
+                        <li><strong>代码异味检测</strong>：自动识别重复代码、长函数等</li>
+                        <li><strong>重构模式</strong>：应用经典重构模式</li>
+                        <li><strong>批量重构</strong>：大规模代码库重构支持</li>
+                        <li><strong>安全重构</strong>：重构前后行为一致性验证</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 8px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>2025增强：</strong>数据驱动的重构建议
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="badge">调试</span>
+                    <h3>Bug调试（Debugging）</h3>
+                    <p><strong>核心功能</strong>：分析错误日志、定位问题根源、生成修复方案</p>
+                    <ul style="margin-top: 10px; padding-left: 20px; line-height: 1.6;">
+                        <li><strong>日志分析</strong>：智能分析错误日志和堆栈跟踪</li>
+                        <li><strong>根因分析</strong>：定位问题的根本原因</li>
+                        <li><strong>修复方案</strong>：生成针对性的修复代码</li>
+                        <li><strong>回归测试</strong>：修复后自动验证相关问题</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 8px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>核心技能：</strong>Awesome Claude Skills收录的调试技能
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="badge">性能</span>
+                    <h3>性能优化（Performance）</h3>
+                    <p><strong>核心功能</strong>：分析性能瓶颈、提供优化建议、生成改进报告</p>
+                    <ul style="margin-top: 10px; padding-left: 20px; line-height: 1.6;">
+                        <li><strong>瓶颈识别</strong>：自动识别性能瓶颈点</li>
+                        <li><strong>数据驱动</strong>：基于实际性能数据而非通用方案</li>
+                        <li><strong>优化建议</strong>：针对性的性能优化策略</li>
+                        <li><strong>改进报告</strong>：优化前后性能对比报告</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 8px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>2025增强：</strong>完整的性能优化方法论
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="badge">安全</span>
+                    <h3>安全审计（Security）</h3>
+                    <p><strong>核心功能</strong>：扫描安全漏洞、检查依赖风险、生成安全报告</p>
+                    <ul style="margin-top: 10px; padding-left: 20px; line-height: 1.6;">
+                        <li><strong>威胁模型</strong>：2025年最新的威胁建模方法</li>
+                        <li><strong>权限管理</strong>：Skills访问敏感数据的安全审查</li>
+                        <li><strong>依赖扫描</strong>：第三方库安全漏洞检查</li>
+                        <li><strong>合规检查</strong>：OWASP Top 10等安全标准</li>
+                    </ul>
+                    <div style="margin-top: 10px; padding: 8px; background: #f0f0f0; border-radius: 5px; font-size: 0.85em;">
+                        <strong>2025增强：</strong>安全团队审查流程、数据治理
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 25px;">
+                <h4>💡 2025年Skills生态系统洞察</h4>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    <strong>从单一任务到专业化Agent</strong>：2025年的Claude Code Skills已经从简单的命令脚本发展为完整的专业化AI Agent。
+                </p>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    <strong>核心技能库成熟</strong>：Awesome Claude Skills仓库收录了<strong>20+实战验证的技能</strong>，包括TDD、调试、协作模式等核心技能。
+                </p>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    <strong>安全成为一等公民</strong>：2025年Skills引入了完整的威胁模型、权限管理和数据治理机制，
+                    安全团队会审查所有访问敏感数据的Skills。
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚙️ 使用方法</h2>
+            
+            <h3>基本用法</h3>
+            <div class="code-block"># 查看所有可用Skills
+/skills
+
+# 使用特定Skill
+/skill code-review
+
+# 带参数使用Skill
+/skill test --coverage
+
+# 查看Skill帮助
+/skill code-review --help</div>
+
+            <h3>实际示例</h3>
+            <div class="code-block"># 代码审查
+/skill code-review src/
+
+# 生成文档
+/skill docs-generate
+
+# 运行测试并生成覆盖率报告
+/skill test --coverage --report
+
+# Git智能提交
+/skill commit "修复登录Bug"
+
+# 性能分析
+/skill analyze-performance</div>
+        </div>
+
+        <div class="section">
+            <h2>💡 最佳实践</h2>
+            
+            <div class="highlight-box">
+                <h4>✨ 使用建议</h4>
+                <ul style="line-height: 2; margin-top: 10px;">
+                    <li><strong>先看Skills</strong>：开始任务前，先检查是否有现成的Skill可用</li>
+                    <li><strong>组合使用</strong>：多个Skills可以组合完成复杂任务</li>
+                    <li><strong>自定义Skills</strong>：为团队常用流程创建自定义Skills</li>
+                    <li><strong>版本管理</strong>：将自定义Skills纳入版本控制</li>
+                    <li><strong>文档化</strong>：为每个Skill编写清晰的使用说明</li>
+                </ul>
+            </div>
+
+            <h3>创建自定义Skill</h3>
+            <div class="code-block"># 创建Skill目录
+mkdir -p .claude/skills
+
+# 创建Skill文件
+cat > .claude/skills/team-review.md << 'EOF'
+---
+name: team-review
+description: 团队标准代码审查流程
+parameters:
+  - name: path
+    description: 要审查的文件或目录
+    required: true
+---
+
+执行团队标准代码审查：
+1. 检查代码风格符合团队规范
+2. 验证测试覆盖率 >= 80%
+3. 检查文档完整性
+4. 生成审查报告
+EOF
+
+# 使用自定义Skill
+/skill team-review src/</div>
+        </div>
+
+        <div class="section">
+            <h2>🔗 与其他功能的集成</h2>
+            
+            <h3>Skills + Ralph Wiggum</h3>
+            <p style="line-height: 1.8; margin: 15px 0;">
+                结合Ralph Wiggum的自动迭代能力，Skills可以持续运行直到完成所有审查任务。
+            </p>
+
+            <h3>Skills + Output Styles</h3>
+            <p style="line-height: 1.8; margin: 15px 0;">
+                使用不同的Output Styles，Skills可以以不同的格式输出结果（讲解型、学习型等）。
+            </p>
+
+            <h3>Skills + Plugins</h3>
+            <p style="line-height: 1.8; margin: 15px 0;">
+                复杂的Skills可以打包成插件，在团队间共享使用。
+            </p>
+
+            <div class="highlight-box" style="margin-top: 20px;">
+                <h4>🎯 组合示例</h4>
+                <div class="code-block" style="margin-top: 10px;">
+# 使用Ralph自动迭代代码审查Skill
+/ralph-wiggum:ralph-loop "/skill code-review src/" \
+  --max-iterations 10 \
+  --completion-promise "代码审查完成"
+
+# 使用讲解型风格运行测试Skill
+/output-style explanatory
+/skill test --verbose
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="section">
+            <h2>🔗 相关资源与参考资料（2025更新）</h2>
+
+            <h3>常用Skills相关资源</h3>
+            <ul style="line-height: 2;">
+                <li>📖 <a href="https://www.cursor-ide.com/blog/claude-code-skills" target="_blank" style="color: #667eea;">Claude Code Skills Complete Guide for Developers (2025)</a></li>
+                <li>📖 <a href="https://github.com/travisvn/awesome-claude-skills" target="_blank" style="color: #667eea;">Awesome Claude Skills - 20+实战验证技能集合</a></li>
+                <li>📖 <a href="https://skywork.ai/blog/ai-agent/claude-skills-security-threat-model-permissions-best-practices-2025/" target="_blank" style="color: #667eea;">Are Claude Skills Secure? Threat Model & Permissions (2025)</a></li>
+                <li>📖 <a href="https://zoer.ai/posts/zoer/best-claude-code-skills-developers" target="_blank" style="color: #667eea;">Best Claude Code Skills for Developers: 2025 Guide</a></li>
+                <li>📖 <a href="https://apidog.com/blog/top-10-claude-code-skills/" target="_blank" style="color: #667eea;">Top 10 Claude Code Skills You Need to Know</a></li>
+                <li>📖 <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" style="color: #667eea;">Claude Code: Best practices for agentic coding (官方)</a></li>
+                <li>📖 <a href="https://www.datacamp.com/tutorial/claude-code" target="_blank" style="color: #667eea;">Claude Code: A Guide With Practical Examples (2025)</a></li>
+                <li>📖 <a href="https://www.siddharthbharath.com/claude-code-the-complete-guide/" target="_blank" style="color: #667eea;">Cooking with Claude Code: The Complete Guide (2025)</a></li>
+            </ul>
+
+            <h3>Skills系统综合资源</h3>
+            <ul style="line-height: 2;">
+                <li>📖 <a href="https://www.hrishidigital.com.au/blog/claude-md-vs-skills-slash-commands/" target="_blank" style="color: #667eea;">CLAUDE.md vs Skills vs Slash Commands 完整对比</a></li>
+                <li>📖 <a href="https://www.youngleaders.tech/p/claude-skills-commands-subagents-plugins" target="_blank" style="color: #667eea;">Understanding Claude Code: Skills vs Commands vs Subagents</a></li>
+                <li>📖 <a href="https://leehanchung.github.io/blogs/2025/10/26/claude-skills-deep-dive/" target="_blank" style="color: #667eea;">Claude Agent Skills: A First Principles Deep Dive</a></li>
+                <li>📖 <a href="https://skywork.ai/blog/ai-agent/how-to-create-claude-skill-step-by-step-guide/" target="_blank" style="color: #667eea;">How to create your first Claude Skill (step-by-step)</a></li>
+                <li>📖 <a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills" target="_blank" style="color: #667eea;">Equipping agents for the real world (官方工程博客)</a></li>
+                <li>📖 <a href="https://egghead.io/claude-skills-compared-to-slash-commands~lhdor" target="_blank" style="color: #667eea;">Claude Skills Compared to Slash Commands</a></li>
+                <li>📖 <a href="https://medium.com/@ooi_yee_fei/claude-code-skills-superpowering-claude-code-agents-a42b44a58ae2" target="_blank" style="color: #667eea;">Equipping Claude Code Agents with Superpowers</a></li>
+                <li>📖 <a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/quickstart" target="_blank" style="color: #667eea;">Get started with Agent Skills (官方文档)</a></li>
+                <li>🎬 <a href="https://www.youtube.com/watch?v=OdtGN27LchE" target="_blank" style="color: #667eea;">Claude Code Skills: AI Agent Team (YouTube教程)</a></li>
+                <li>💻 <a href="https://www.codecademy.com/article/how-to-build-claude-skills" target="_blank" style="color: #667eea;">How to Build Claude Skills: Tutorial</a></li>
+            </ul>
+        </div> -->
+    </div>
+</body>
+</html>

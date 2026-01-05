@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Output Styles - Claude Code 生态系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-5px);
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .styles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .style-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .style-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .style-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .style-card h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+
+        .style-card .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+        }
+
+        .style-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .style-card ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .style-card ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-left: 5px solid #ff6b6b;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 {
+            color: #d63031;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            white-space: pre;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: bold;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        @media (max-width: 768px) {
+            .header, .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 返回目录</a>
+
+        <div class="header">
+            <h1>🎨 Output Styles：AI输出风格系统</h1>
+            <p>
+                Output Styles是Claude Code中的一种机制，用来控制模型生成内容的"表达方式和结构模板"。
+                它不会改变Claude的核心能力或工具权限，而是通过预设的写作框架影响输出。
+            </p>
+            <p style="margin-top: 15px;">
+                例如你可以让Claude以<strong>讲解型</strong>风格生成详细分析，以<strong>教学型</strong>风格
+                输出循序渐进的步骤，或自定义成"PRD模板"、"代码审查报告"等固定格式。
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>🎯 核心概念（2025重要更新）</h2>
+
+            <div class="highlight-box" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); border-left: 5px solid #d63031;">
+                <h4>⚠️ 重要公告：Output Styles 已废弃</h4>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    <strong>2025年10月31日</strong>，Claude Code v2.0.30 正式废弃了 Output Styles 功能。
+                    所有用户级的 Output Styles 正在迁移到 <strong>CLAUDE.md</strong> 或 <strong>Hooks</strong> 机制。
+                </p>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    这不影响已安装的功能，但新项目应该使用 <code>--append-system-prompt</code> 标志
+                    或 CLAUDE.md 文件来实现相同的效果。
+                </p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>💡 什么是Output Styles？</h4>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    Output Styles允许你把Claude Code「变身」为不同类型的智能体（Agent），
+                    但<strong>保留其核心能力</strong>：运行本地脚本、读写文件、跟踪TODO等。
+                </p>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    它通过<strong>直接修改Claude Code的系统提示词（system prompt）</strong>
+                    来改变行为与交流方式；非默认风格会去掉许多"为了高效产码"的默认约束
+                    （如必须简洁、自动用测试验证等），并换成该风格的专属指令。
+                </p>
+            </div>
+
+            <h3>🏗️ 系统提示词修改机制深度解析</h3>
+            <p>Claude Code提供<strong>三种不同的方式</strong>来自定义AI行为，每种方式的作用机制和适用场景都不同：</p>
+
+            <div style="margin: 25px 0;">
+                <div style="background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #00bcd4;">
+                    <h4 style="color: #006064; margin-bottom: 10px;">1️⃣ Output Styles（替换模式 - 已废弃）</h4>
+                    <ul style="line-height: 2; margin-top: 10px; margin-left: 20px;">
+                        <li><strong>作用方式</strong>：<strong>完全替换</strong>默认的工程导向系统提示词</li>
+                        <li><strong>影响范围</strong>：覆盖"语气和风格"及"任务执行"部分</li>
+                        <li><strong>提示词位置</strong>：置于提示词顶部，工具定义之上</li>
+                        <li><strong>功能等效</strong>：等同于完整的系统提示词替换</li>
+                        <li><strong>内置风格</strong>：Default（简洁工程型）、Explanatory（讲解型）、Learning（学习型）</li>
+                        <li><strong>最佳场景</strong>：根本性改变Claude Code的个性和行为模式</li>
+                    </ul>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #9c27b0;">
+                    <h4 style="color: #4a148c; margin-bottom: 10px;">2️⃣ --append-system-prompt（增强模式 - 推荐）</h4>
+                    <ul style="line-height: 2; margin-top: 10px; margin-left: 20px;">
+                        <li><strong>作用方式</strong>：<strong>追加到</strong>现有系统提示词（不替换）</li>
+                        <li><strong>影响范围</strong>：在Output Style内容之后，工具定义之前</li>
+                        <li><strong>提示词位置</strong>：Output Style之后 → <strong>append内容</strong> → 工具定义</li>
+                        <li><strong>叠加特性</strong>：可与Output Styles叠加使用</li>
+                        <li><strong>修改层级</strong>：直接修改系统提示词本身</li>
+                        <li><strong>最佳场景</strong>：在现有行为基础上增强专业领域（安全、性能、数据库优化等）</li>
+                    </ul>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #ff9800;">
+                    <h4 style="color: #e65100; margin-bottom: 10px;">3️⃣ CLAUDE.md（用户消息模式）</h4>
+                    <ul style="line-height: 2; margin-top: 10px; margin-left: 20px;">
+                        <li><strong>作用方式</strong>：<strong>追加用户消息</strong>到对话中</li>
+                        <li><strong>影响范围</strong>：不修改系统提示词，作为用户消息处理</li>
+                        <li><strong>提示词位置</strong>：作为普通用户消息在对话末尾</li>
+                        <li><strong>功能限制</strong>：功能弱于前两种方法</li>
+                        <li><strong>作用范围</strong>：项目级配置文件</li>
+                        <li><strong>最佳场景</strong>：不需要系统级改变的项目特定上下文和指南</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>🔄 组合行为与执行顺序</h3>
+            <p>当同时使用多种定制方法时，执行顺序如下：</p>
+            <div class="code-block">1. Output Style（如果激活） - 替换基础系统提示词
+2. --append-system-prompt 内容 - 追加到系统提示词
+3. 工具定义（Tools）
+4. CLAUDE.md - 作为用户消息</div>
+
+            <div class="highlight-box" style="margin-top: 15px;">
+                <h4>🔑 关键洞察</h4>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    这意味着 Output Styles 和 <code>--append-system-prompt</code> 可以<strong>协同工作</strong>：
+                    Output Style 建立基础行为模式，append 标志添加专业指令。
+                    例如：使用 Explanatory Style 作为基础，再用 --append-system-prompt 添加安全审计专项指南。
+                </p>
+            </div>
+
+            <h3>📁 技术本质</h3>
+            <ul style="line-height: 2; margin: 20px 0;">
+                <li>✅ 本质是一个<strong>系统提示词文件</strong>（.md格式）</li>
+                <li>✅ 存放在 <code style="background: #f0f0f0; padding: 2px 8px; border-radius: 4px;">.claude/output-styles/</code> 目录</li>
+                <li>✅ 包含元数据（名称、描述）和正文模板</li>
+                <li>✅ 支持YAML格式的Front Matter</li>
+                <li>✅ Markdown格式编写，易于版本控制</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎭 三大内置风格</h2>
+
+            <div class="styles-grid">
+                <div class="style-card">
+                    <span class="badge">默认</span>
+                    <h3>Default</h3>
+                    <p>面向高效软件工程协作的默认系统提示</p>
+                    <ul>
+                        <li>简洁高效的代码输出</li>
+                        <li>自动测试验证</li>
+                        <li>工程化最佳实践</li>
+                        <li>快速迭代开发</li>
+                    </ul>
+                </div>
+
+                <div class="style-card">
+                    <span class="badge">讲解型</span>
+                    <h3>Explanatory</h3>
+                    <p>在完成任务的同时插入教学式的Insights</p>
+                    <ul>
+                        <li>解释实现选择</li>
+                        <li>说明代码库模式</li>
+                        <li>提供上下文洞察</li>
+                        <li>教学式注释</li>
+                    </ul>
+                </div>
+
+                <div class="style-card">
+                    <span class="badge">学习型</span>
+                    <h3>Learning</h3>
+                    <p>更像结对编程教练，边做边教</p>
+                    <ul>
+                        <li>插入TODO(human)</li>
+                        <li>让用户亲自补全</li>
+                        <li>提供反馈建议</li>
+                        <li>互动式学习</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚙️ 使用方法</h2>
+
+            <h3>切换风格</h3>
+            <div class="code-block"># 交互式选择
+/output-style
+
+# 直接切换到讲解型
+/output-style explanatory
+
+# 直接切换到学习型
+/output-style learning
+
+# 也可通过/config菜单进入
+/config</div>
+
+            <h3>创建自定义风格</h3>
+            <div class="code-block"># 让Claude帮你起草
+/output-style:new 我想要一个安全审计风格：偏严格、先threat modeling、产出修复建议
+
+# 手动创建
+cd ~/.claude/output-styles
+nano my-style.md</div>
+
+            <h3>自定义风格示例</h3>
+            <div class="code-block">---
+name: Gemini Code Reviewer
+description: 使用Gemini CLI进行代码审查和优化
+---
+
+You are a specialized code review assistant that leverages
+Gemini CLI for comprehensive analysis...
+
+# 核心工作流
+Stage 1: Automated Gemini Analysis (MANDATORY)
+gemini -p "Review this code: @$FILE_PATH"
+
+Stage 2: Implementation and Optimization
+Parse findings → Prioritize → Implement changes</div>
+        </div>
+
+        <div class="section">
+            <h2>🆚 深度对比：三种定制方法（2025版）</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>对比维度</th>
+                        <th>Output Styles（已废弃）</th>
+                        <th>--append-system-prompt</th>
+                        <th>CLAUDE.md</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>作用机制</strong></td>
+                        <td><strong>完全替换</strong>默认系统提示词</td>
+                        <td><strong>追加到</strong>系统提示词</td>
+                        <td>作为<strong>用户消息</strong>追加</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td><strong>提示词位置</strong></td>
+                        <td>置于顶部，工具定义之上</td>
+                        <td>Output Style之后，工具定义之前</td>
+                        <td>对话末尾，作为用户消息</td>
+                    </tr>
+                    <tr>
+                        <td><strong>修改层级</strong></td>
+                        <td>系统提示词层</td>
+                        <td>系统提示词层</td>
+                        <td>用户消息层（不修改系统提示词）</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td><strong>影响范围</strong></td>
+                        <td>全局行为模式</td>
+                        <td>系统级行为增强</td>
+                        <td>项目级上下文</td>
+                    </tr>
+                    <tr>
+                        <td><strong>叠加能力</strong></td>
+                        <td>独立使用，不能与其他叠加</td>
+                        <td>可与Output Styles和CLAUDE.md叠加</td>
+                        <td>可与前两种方法叠加使用</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td><strong>持久化位置</strong></td>
+                        <td>~/.claude/output-styles/</td>
+                        <td>命令行参数或配置文件</td>
+                        <td>项目根目录 CLAUDE.md</td>
+                    </tr>
+                    <tr>
+                        <td><strong>自定义程度</strong></td>
+                        <td>⭐⭐⭐⭐⭐ 完全自定义</td>
+                        <td>⭐⭐⭐⭐ 灵活增强</td>
+                        <td>⭐⭐ 简单追加</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td><strong>2025状态</strong></td>
+                        <td><span style="color: #d63031; font-weight: bold;">❌ 已废弃</span></td>
+                        <td><span style="color: #00b894; font-weight: bold;">✅ 推荐使用</span></td>
+                        <td><span style="color: #00b894; font-weight: bold;">✅ 推荐使用</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>典型用途</strong></td>
+                        <td>改变AI个性和交流方式</td>
+                        <td>添加专业领域知识（安全、性能、数据库）</td>
+                        <td>项目规范、团队约定、开发指南</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box" style="margin-top: 25px;">
+                <h4>🎯 选择建议</h4>
+                <ul style="line-height: 2; margin-top: 10px;">
+                    <li><strong>新项目</strong>：使用 <code>--append-system-prompt</code> 或 CLAUDE.md</li>
+                    <li><strong>完全改变行为</strong>：使用 --append-system-prompt（替换Output Styles）</li>
+                    <li><strong>增强现有行为</strong>：使用 --append-system-prompt（叠加增强）</li>
+                    <li><strong>项目级规范</strong>：使用 CLAUDE.md（团队共享）</li>
+                    <li><strong>现有Output Styles</strong>：考虑迁移到 --append-system-prompt 或 Hooks</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💡 实战案例</h2>
+
+            <h3>案例A：快速熟悉遗留代码库（Explanatory）</h3>
+            <div class="code-block"># 选择风格
+/output-style explanatory
+
+# 典型指令
+"请为 services/order/ 目录做系统性走查，按模块输出架构图要点
+与常见反模式，并给我3条重构路线图。"
+
+# 产出预期
+边输出改动建议，边穿插「Insights」解释为什么、
+涉及哪些设计权衡，并链接到具体文件/行号</div>
+
+            <h3>案例B：团队新人入职带教（Learning）</h3>
+            <div class="code-block"># 选择风格
+/output-style learning
+
+# 典型指令
+"我们要给 UserService 增加批量导入，按TDD来：
+请先写失败用例，然后在实现里留下 TODO(human) 让我完成关键片段。"
+
+# 产出预期
+测试先行，Claude插入TODO(human)让新人补全，
+随后自动点评与改进建议</div>
+
+            <h3>案例C：自定义安全审计风格</h3>
+            <div class="code-block"># 创建风格
+/output-style:new 我想要严格的安全审计风格：
+先威胁建模，再静态/依赖/配置审计，
+输出CWE映射、修复PR草案与本地脚本。
+
+# 典型指令
+"审计 auth/ 和 infra/terraform/，
+列出高/中/低风险清单；为高风险生成修复PR diff和自动化检查脚本。"</div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 最佳实践</h2>
+
+            <div class="highlight-box">
+                <h4>✨ 使用建议</h4>
+                <ul style="line-height: 2; margin-top: 10px;">
+                    <li><strong>团队共享</strong>：将常用风格放到项目级 <code>.claude/output-styles/</code></li>
+                    <li><strong>版本管理</strong>：把风格文件纳入Git，形成标准化智能体角色库</li>
+                    <li><strong>明确场景</strong>：每个风格都有清晰的使用场景说明</li>
+                    <li><strong>持续优化</strong>：根据实际使用反馈不断改进风格定义</li>
+                    <li><strong>文档化</strong>：为自定义风格编写清晰的使用文档</li>
+                </ul>
+            </div>
+
+            <h3>存储位置</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>级别</th>
+                        <th>路径</th>
+                        <th>作用域</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>用户级</strong></td>
+                        <td><code>~/.claude/output-styles/</code></td>
+                        <td>所有项目</td>
+                    </tr>
+                    <tr>
+                        <td><strong>项目级</strong></td>
+                        <td><code>.claude/output-styles/</code></td>
+                        <td>当前项目（团队共享）</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- <div class="section">
+            <h2>🔗 相关资源与参考资料（2025更新）</h2>
+            <ul style="line-height: 2;">
+                <li>📖 <a href="https://code.claude.com/docs/en/output-styles" target="_blank" style="color: #667eea;">Output Styles - Claude Code官方文档</a></li>
+                <li>📖 <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" style="color: #667eea;">Claude Code: Best practices for agentic coding (官方工程博客)</a></li>
+                <li>📖 <a href="https://agiflow.io/blog/claude-code-internals-reverse-engineering-prompt-augmentation/" target="_blank" style="color: #667eea;">Claude Code Internals: Reverse Engineering Prompt Augmentation</a></li>
+                <li>📖 <a href="https://shipyard.build/blog/claude-code-output-styles-pair-programming/" target="_blank" style="color: #667eea;">Pair programming with Claude Code: using output styles</a></li>
+                <li>📖 <a href="https://www.eesel.ai/blog/output-styles-claude-code" target="_blank" style="color: #667eea;">A practical guide to output styles in Claude Code</a></li>
+                <li>📖 <a href="https://medium.com/@richardhightower/claude-code-output-styles-transform-your-ai-coding-assistant-mastering-claude-codes-output-9a180635f403" target="_blank" style="color: #667eea;">Claude Code Output Styles: Transform Your AI Coding Assistant</a></li>
+                <li>📖 <a href="https://platform.claude.com/docs/en/agent-sdk/modifying-system-prompts" target="_blank" style="color: #667eea;">Modifying system prompts - Claude Agent SDK文档</a></li>
+                <li>📖 <a href="https://github.com/anthropics/claude-code/issues/6973" target="_blank" style="color: #667eea;">Clarify how CLAUDE.md and --append-system-prompt influence behavior</a></li>
+                <li>🎬 <a href="https://www.youtube.com/watch?v=BwjWr6SoyK8" target="_blank" style="color: #667eea;">Claude Code Output Styles Explained (YouTube)</a></li>
+                <li>📖 <a href="https://github.com/hesreallyhim/awesome-claude-code-output-styles-that-i-really-like" target="_blank" style="color: #667eea;">Awesome Claude Code Output Styles Collection</a></li>
+            </ul>
+        </div> -->
+    </div>
+</body>
+</html>
