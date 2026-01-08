@@ -540,6 +540,318 @@
                 page-break-inside: avoid;
             }
         }
+
+        /* 流程图样式 */
+        .flowchart-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .flowchart-title {
+            text-align: center;
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .flowchart {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .flow-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .flow-step-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(102, 126, 234, 0);
+            }
+        }
+
+        .flow-step-circle i {
+            font-size: 2em;
+            color: white;
+        }
+
+        .flow-step-label {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .flow-step-desc {
+            font-size: 0.9em;
+            color: #666;
+            max-width: 150px;
+            margin: 0 auto;
+        }
+
+        .flow-arrow {
+            flex: 1;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            margin: 0 10px;
+        }
+
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 8px solid transparent;
+            border-left: 10px solid #764ba2;
+        }
+
+        .flow-arrow.animated {
+            background: linear-gradient(90deg, #667eea 0%, transparent 100%);
+            animation: flowAnimation 2s infinite;
+        }
+
+        @keyframes flowAnimation {
+            0% {
+                background-position: -100% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* 时序图样式 */
+        .sequence-diagram-container {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sequence-diagram-title {
+            text-align: center;
+            color: #d63031;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .sequence-diagram {
+            position: relative;
+            height: 600px;
+            margin: 40px 20px;
+        }
+
+        .sequence-actor {
+            position: absolute;
+            top: 0;
+            width: 150px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .sequence-actor-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.5em;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: actorPulse 2s infinite;
+        }
+
+        @keyframes actorPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .sequence-actor-name {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .sequence-lifeline {
+            position: absolute;
+            top: 80px;
+            bottom: 0;
+            width: 2px;
+            background: repeating-linear-gradient(
+                to bottom,
+                #667eea 0px,
+                #667eea 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .sequence-message {
+            position: absolute;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            font-size: 0.9em;
+            max-width: 200px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: messageFadeIn 0.5s ease-out forwards;
+            z-index: 5;
+        }
+
+        .sequence-message::before {
+            content: '';
+            position: absolute;
+            background: #667eea;
+            height: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .sequence-message.left-to-right::before {
+            left: -50px;
+            width: 50px;
+        }
+
+        .sequence-message.right-to-left::before {
+            right: -50px;
+            width: 50px;
+        }
+
+        .sequence-message.left-to-right::after {
+            content: '';
+            position: absolute;
+            left: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-left: 8px solid #667eea;
+        }
+
+        .sequence-message.right-to-left::after {
+            content: '';
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-right: 8px solid #667eea;
+        }
+
+        @keyframes messageFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sequence-note {
+            position: absolute;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            font-size: 0.85em;
+            max-width: 220px;
+            opacity: 0;
+            animation: noteFadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes noteFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .play-button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .play-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .play-button:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .flowchart {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                width: 3px;
+                height: 50px;
+                margin: 10px 0;
+            }
+
+            .flow-arrow::after {
+                right: 50%;
+                top: auto;
+                bottom: 0;
+                transform: translateX(50%);
+                border: 8px solid transparent;
+                border-top: 10px solid #764ba2;
+                border-left: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -557,6 +869,108 @@
             </p>
         </div>
 
+        <!-- 用户交互流程图 - 安装并使用辅助工具 -->
+<!--
+        <div class="user-flow-container" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-radius: 20px; padding: 40px; margin: 40px 0; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+            <h3 style="color: #2e7d32; font-size: 1.8em; margin-bottom: 30px; text-align: center; font-weight: bold;">🎯 辅助工具安装使用流程（可交互演示）</h3>
+
+            <div id="userFlowSteps" style="max-width: 900px; margin: 0 auto; position: relative;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <span id="flowProgress" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold;">步骤 0/5</span>
+                </div>
+
+                &lt;!&ndash; 步骤卡片 &ndash;&gt;
+                <div class="flow-step-card" data-step="1" style="background: white; border-radius: 15px; padding: 30px; margin-bottom: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: all 0.3s; opacity: 0.5; transform: scale(0.95);">
+                    <div style="display: flex; align-items: flex-start;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8em; color: white; margin-right: 20px; flex-shrink: 0;">🔍</div>
+                        <div style="flex: 1;">
+                            <h4 style="color: #667eea; font-size: 1.3em; margin-bottom: 10px;">步骤1: 选择辅助工具</h4>
+                            <p style="color: #666; line-height: 1.8; margin-bottom: 15px;">从GitHub或社区选择需要的辅助工具(如Vibe-Kanban、Auto-Claude)</p>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <p style="margin: 5px 0; color: #555; font-size: 0.95em;">✓ <strong>用户操作</strong>: 访问工具仓库,阅读文档了解功能</p>
+                                <p style="margin: 5px 0; color: #555; font-size: 0.95em;">✓ <strong>预期结果</strong>: 确认工具适合当前项目需求</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-step-card" data-step="2" style="background: white; border-radius: 15px; padding: 30px; margin-bottom: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: all 0.3s; opacity: 0.5; transform: scale(0.95);">
+                    <div style="display: flex; align-items: flex-start;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8em; color: white; margin-right: 20px; flex-shrink: 0;">📥</div>
+                        <div style="flex: 1;">
+                            <h4 style="color: #667eea; font-size: 1.3em; margin-bottom: 10px;">步骤2: 安装MCP服务器</h4>
+                            <p style="color: #666; line-height: 1.8; margin-bottom: 15px;">使用npm或uv安装MCP服务器到本地环境</p>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <p style="margin: 5px 0; color: #555; font-size: 0.95em;">✓ <strong>用户操作</strong>: 运行安装命令如<code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">npx @toolname</code></p>
+                                <p style="margin: 5px 0; color: #555; font-size: 0.95em;">✓ <strong>预期结果</strong>: 工具成功安装到系统或项目目录</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-step-card" data-step="3" style="background: white; border-radius: 15px; padding: 30px; margin-bottom: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: all 0.3s; opacity: 0.5; transform: scale(0.95);">
+                    <div style="display: flex; align-items: flex-start;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8em; color: white; margin-right: 20px; flex-shrink: 0;">⚙️</div>
+                        <div style="flex: 1;">
+                            <h4 style="color: #667eea; font-size: 1.3em; margin-bottom: 10px;">步骤3: 配置参数</h4>
+                            <p style="color: #666; line-height: 1.8; margin-bottom: 15px;">在Claude Code配置文件中添加MCP服务器配置</p>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <p style="margin: 5px 0; color: #555; font-size: 0.95em;">✓ <strong>用户操作</strong>: 编辑<code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">~/.claude/settings.json</code>添加服务器配置</p>
+                                <p style="margin: 5px 0; color: #555; font-size: 0.95em;">✓ <strong>预期结果</strong>: 配置文件包含正确的命令和参数</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-step-card" data-step="4" style="background: white; border-radius: 15px; padding: 30px; margin-bottom: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: all 0.3s; opacity: 0.5; transform: scale(0.95);">
+                    <div style="display: flex; align-items: flex-start;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8em; color: white; margin-right: 20px; flex-shrink: 0;">💬</div>
+                        <div style="flex: 1;">
+                            <h4 style="color: #667eea; font-size: 1.3em; margin-bottom: 10px;">步骤4: 在对话中调用</h4>
+                            <p style="color: #666; line-height: 1.8; margin-bottom: 15px;">重启Claude Code,在对话中使用工具提供的功能</p>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <p style="margin: 5px 0; color: #555; font-size: 0.95em;">✓ <strong>用户操作</strong>: 输入自然语言请求使用工具功能</p>
+                                <p style="margin: 5px 0; color: #555; font-size: 0.95em;">✓ <strong>预期结果</strong>: Claude Code自动调用MCP服务器执行任务</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-step-card" data-step="5" style="background: white; border-radius: 15px; padding: 30px; margin-bottom: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: all 0.3s; opacity: 0.5; transform: scale(0.95);">
+                    <div style="display: flex; align-items: flex-start;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8em; color: white; margin-right: 20px; flex-shrink: 0;">📊</div>
+                        <div style="flex: 1;">
+                            <h4 style="color: #667eea; font-size: 1.3em; margin-bottom: 10px;">步骤5: 查看工具输出</h4>
+                            <p style="color: #666; line-height: 1.8; margin-bottom: 15px;">检查工具执行结果并继续工作流</p>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <p style="margin: 5px 0; color: #555; font-size: 0.95em;">✓ <strong>用户操作</strong>: 查看返回的数据、图表或执行结果</p>
+                                <p style="margin: 5px 0; color: #555; font-size: 0.95em;">✓ <strong>预期结果</strong>: 获得工具提供的增强功能输出</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            &lt;!&ndash; 控制按钮 &ndash;&gt;
+            <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
+                <button onclick="previousFlowStep()" style="padding: 12px 30px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 25px; font-size: 1em; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);">
+                    ← 上一步
+                </button>
+                <button onclick="playFlowDemo()" style="padding: 12px 30px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 25px; font-size: 1em; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);">
+                    ▶ 自动演示
+                </button>
+                <button onclick="nextFlowStep()" style="padding: 12px 30px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 25px; font-size: 1em; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);">
+                    下一步 →
+                </button>
+            </div>
+
+            <div id="flowComplete" style="display: none; text-align: center; margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border-radius: 10px;">
+                <h3 style="color: #00b894; font-size: 1.5em; margin-bottom: 10px;">✅ 完成!</h3>
+                <p style="color: #555; line-height: 1.8;">你已经学会了如何安装和使用辅助工具。探索更多工具提升开发效率!</p>
+            </div>
+        </div>
+-->
+
         <div class="section">
             <h2>🌟 2025年生态概览</h2>
 
@@ -569,6 +983,75 @@
                     <li><strong>第三方插件</strong>：数百个社区插件覆盖各种场景</li>
                     <li><strong>集成工具</strong>：CI/CD、IDE、项目管理平台深度集成</li>
                 </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💡 辅助工具调用流程</h2>
+
+            <div class="flowchart-container">
+                <h3 class="flowchart-title">🔄 多Agent编排工作流程</h3>
+
+                <div class="flowchart">
+                    <div class="flow-step">
+                        <div class="flow-step-circle">
+                            <i>📋</i>
+                        </div>
+                        <div class="flow-step-label">任务分解</div>
+                        <div class="flow-step-desc">复杂任务拆分</div>
+                    </div>
+
+                    <div class="flow-arrow animated"></div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-circle">
+                            <i>🤖</i>
+                        </div>
+                        <div class="flow-step-label">并行执行</div>
+                        <div class="flow-step-desc">多Agent同时工作</div>
+                    </div>
+
+                    <div class="flow-arrow animated"></div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-circle">
+                            <i>📊</i>
+                        </div>
+                        <div class="flow-step-label">实时监控</div>
+                        <div class="flow-step-desc">看板界面跟踪</div>
+                    </div>
+
+                    <div class="flow-arrow animated"></div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-circle">
+                            <i>🔀</i>
+                        </div>
+                        <div class="flow-step-label">结果整合</div>
+                        <div class="flow-step-desc">自动合并输出</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 10px;">
+                    <h4 style="color: #667eea; margin-bottom: 15px;">📝 辅助工具调用示例</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+                        <div style="padding: 12px; background: #f0f0f0; border-radius: 8px;">
+                            <h5 style="color: #667eea; margin-bottom: 8px; font-size: 0.95em;">Vibe-Kanban</h5>
+                            <code style="font-size: 0.8em;">vibe-kanban start</code>
+                            <p style="margin-top: 5px; font-size: 0.85em; color: #666;">启动看板界面</p>
+                        </div>
+                        <div style="padding: 12px; background: #f0f0f0; border-radius: 8px;">
+                            <h5 style="color: #667eea; margin-bottom: 8px; font-size: 0.95em;">Auto-Claude</h5>
+                            <code style="font-size: 0.8em;">auto-claude run script</code>
+                            <p style="margin-top: 5px; font-size: 0.85em; color: #666;">执行脚本任务</p>
+                        </div>
+                        <div style="padding: 12px; background: #f0f0f0; border-radius: 8px;">
+                            <h5 style="color: #667eea; margin-bottom: 8px; font-size: 0.95em;">社区工具</h5>
+                            <code style="font-size: 0.8em;">npm install tool-name</code>
+                            <p style="margin-top: 5px; font-size: 0.85em; color: #666;">安装社区插件</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -975,6 +1458,121 @@ vibe-kanban report --format markdown</div>
             </div>
         </div>
 
+        <!-- 时序图部分 -->
+        <div class="sequence-diagram-container">
+            <h3 class="sequence-diagram-title">🎬 辅助工具调用时序图（可交互动画）</h3>
+            <button class="play-button" onclick="playSequenceAnimation()">▶️ 播放时序动画</button>
+
+            <div class="sequence-diagram" id="sequenceDiagram">
+                <!-- 用户 Actor -->
+                <div class="sequence-actor" style="left: 5%;">
+                    <div class="sequence-actor-icon">👤</div>
+                    <div class="sequence-actor-name">用户</div>
+                    <div class="sequence-lifeline"></div>
+                </div>
+
+                <!-- Claude Code Actor -->
+                <div class="sequence-actor" style="left: 25%;">
+                    <div class="sequence-actor-icon">🤖</div>
+                    <div class="sequence-actor-name">Claude Code</div>
+                    <div class="sequence-lifeline"></div>
+                </div>
+
+                <!-- Vibe-Kanban Actor -->
+                <div class="sequence-actor" style="left: 45%;">
+                    <div class="sequence-actor-icon">📊</div>
+                    <div class="sequence-actor-name">Vibe-Kanban</div>
+                    <div class="sequence-lifeline"></div>
+                </div>
+
+                <!-- Auto-Claude Actor -->
+                <div class="sequence-actor" style="left: 65%;">
+                    <div class="sequence-actor-icon">⚙️</div>
+                    <div class="sequence-actor-name">Auto-Claude</div>
+                    <div class="sequence-lifeline"></div>
+                </div>
+
+                <!-- 工具集 Actor -->
+                <div class="sequence-actor" style="left: 85%;">
+                    <div class="sequence-actor-icon">🛠️</div>
+                    <div class="sequence-actor-name">工具集</div>
+                    <div class="sequence-lifeline"></div>
+                </div>
+
+                <!-- 消息1: 用户发起任务 -->
+                <div class="sequence-message left-to-right" id="msg1" style="left: 5%; top: 120px; animation-delay: 0s;">
+                    发起开发任务
+                </div>
+
+                <!-- 消息2: 任务分解 -->
+                <div class="sequence-message left-to-right" id="msg2" style="left: 25%; top: 180px; animation-delay: 0.8s;">
+                    拆解为子任务
+                </div>
+
+                <!-- 消息3: 创建看板 -->
+                <div class="sequence-message left-to-right" id="msg3" style="left: 25%; top: 240px; animation-delay: 1.6s;">
+                    创建看板卡片
+                </div>
+
+                <!-- 消息4: 返回看板 -->
+                <div class="sequence-message right-to-left" id="msg4" style="left: 25%; top: 300px; animation-delay: 2.4s;">
+                    看板创建成功
+                </div>
+
+                <!-- 消息5: 调度自动化 -->
+                <div class="sequence-message left-to-right" id="msg5" style="left: 45%; top: 360px; animation-delay: 3.2s;">
+                    设置定时任务
+                </div>
+
+                <!-- 消息6: 执行脚本 -->
+                <div class="sequence-message left-to-right" id="msg6" style="left: 65%; top: 420px; animation-delay: 4s;">
+                    运行自动化脚本
+                </div>
+
+                <!-- 消息7: 返回结果 -->
+                <div class="sequence-message right-to-left" id="msg7" style="left: 65%; top: 480px; animation-delay: 4.8s;">
+                    返回执行结果
+                </div>
+
+                <!-- 消息8: 更新进度 -->
+                <div class="sequence-message left-to-right" id="msg8" style="left: 45%; top: 540px; animation-delay: 5.6s;">
+                    更新任务状态
+                </div>
+
+                <!-- 注释1 -->
+                <div class="sequence-note" id="note1" style="left: 10%; top: 270px; animation-delay: 2s;">
+                    <strong>💡 多Agent编排</strong><br>
+                    Vibe-Kanban协调多个AI实例并行工作
+                </div>
+
+                <!-- 注释2 -->
+                <div class="sequence-note" id="note2" style="left: 50%; top: 390px; animation-delay: 3.8s;">
+                    <strong>⚙️ 自动化执行</strong><br>
+                    Auto-Claude支持Cron定时任务调度
+                </div>
+
+                <!-- 注释3 -->
+                <div class="sequence-note" id="note3" style="left: 30%; top: 500px; animation-delay: 5.2s;">
+                    <strong>🔄 实时同步</strong><br>
+                    看板界面实时展示所有Agent进度
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 10px;">
+                <h4 style="color: #667eea; margin-bottom: 10px; text-align: center;">📝 时序图说明</h4>
+                <ul style="line-height: 2; margin-left: 20px;">
+                    <li><strong>用户 → Claude Code</strong>：发起开发任务（如"实现用户认证功能"）</li>
+                    <li><strong>Claude Code → Vibe-Kanban</strong>：创建看板，将任务拆解为可并行执行的子任务</li>
+                    <li><strong>Vibe-Kanban → Claude Code</strong>：返回看板创建成功，展示任务卡片</li>
+                    <li><strong>Claude Code → Auto-Claude</strong>：设置定时任务（如每日构建、周报生成）</li>
+                    <li><strong>Auto-Claude → 工具集</strong>：执行自动化脚本（测试、部署、监控等）</li>
+                    <li><strong>工具集 → Auto-Claude</strong>：返回执行结果和日志</li>
+                    <li><strong>Auto-Claude → Vibe-Kanban</strong>：更新任务状态和进度</li>
+                    <li><strong>Vibe-Kanban → 用户</strong>：在可视化界面展示最终进度和报告</li>
+                </ul>
+            </div>
+        </div>
+
         <div class="section">
             <h2>🎯 最佳实践</h2>
             
@@ -1025,5 +1623,131 @@ auto-claude run weekly-report</div>
             </ul>
         </div>
     </div>
+
+    <script>
+        // 用户交互流程图控制变量
+        let currentFlowStep = 0;
+        const totalFlowSteps = 5;
+        let isPlayingFlowDemo = false;
+        let flowDemoInterval = null;
+
+        // 更新流程步骤显示
+        function updateFlowStep(step) {
+            const steps = document.querySelectorAll('.flow-step-card');
+            const progress = document.getElementById('flowProgress');
+            const complete = document.getElementById('flowComplete');
+
+            progress.textContent = `步骤 ${step}/${totalFlowSteps}`;
+
+            steps.forEach((card, index) => {
+                if (index < step) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1)';
+                    card.style.border = '3px solid #00b894';
+                } else if (index === step - 1) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1.05)';
+                    card.style.border = '3px solid #667eea';
+                    card.style.boxShadow = '0 10px 30px rgba(102, 126, 234, 0.4)';
+                } else {
+                    card.style.opacity = '0.5';
+                    card.style.transform = 'scale(0.95)';
+                    card.style.border = 'none';
+                    card.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+                }
+            });
+
+            if (step >= totalFlowSteps) {
+                complete.style.display = 'block';
+            } else {
+                complete.style.display = 'none';
+            }
+        }
+
+        function nextFlowStep() {
+            if (currentFlowStep < totalFlowSteps) {
+                currentFlowStep++;
+                updateFlowStep(currentFlowStep);
+            }
+        }
+
+        function previousFlowStep() {
+            if (currentFlowStep > 0) {
+                currentFlowStep--;
+                updateFlowStep(currentFlowStep);
+                document.getElementById('flowComplete').style.display = 'none';
+            }
+        }
+
+        function playFlowDemo() {
+            if (isPlayingFlowDemo) {
+                clearInterval(flowDemoInterval);
+                isPlayingFlowDemo = false;
+                return;
+            }
+
+            currentFlowStep = 0;
+            isPlayingFlowDemo = true;
+            updateFlowStep(0);
+
+            flowDemoInterval = setInterval(() => {
+                if (currentFlowStep < totalFlowSteps) {
+                    currentFlowStep++;
+                    updateFlowStep(currentFlowStep);
+                } else {
+                    clearInterval(flowDemoInterval);
+                    isPlayingFlowDemo = false;
+                }
+            }, 2000);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextFlowStep();
+            } else if (e.key === 'ArrowLeft') {
+                previousFlowStep();
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                playFlowDemo();
+            }
+        });
+
+        window.addEventListener('load', () => {
+            updateFlowStep(0);
+        });
+
+        // 时序图动画控制函数
+        function playSequenceAnimation() {
+            const messages = document.querySelectorAll('.sequence-message');
+            const notes = document.querySelectorAll('.sequence-note');
+
+            // 重置所有消息和注释
+            messages.forEach(msg => {
+                msg.style.opacity = '0';
+                msg.style.animation = 'none';
+            });
+            notes.forEach(note => {
+                note.style.opacity = '0';
+                note.style.animation = 'none';
+            });
+
+            // 强制重绘
+            void document.body.offsetHeight;
+
+            // 重新播放动画
+            messages.forEach((msg, index) => {
+                msg.style.animation = `messageFadeIn 0.5s ease-out ${index * 0.8}s forwards`;
+            });
+
+            notes.forEach((note, index) => {
+                note.style.animation = `noteFadeIn 0.5s ease-out ${3 + index * 0.8}s forwards`;
+            });
+        }
+
+        // 页面加载时自动播放一次动画
+        window.addEventListener('load', () => {
+            setTimeout(playSequenceAnimation, 1000);
+        });
+    </script>
 </body>
 </html>

@@ -182,6 +182,557 @@
             .header, .section {
                 padding: 20px;
             }
+
+            .flowchart {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                width: 3px;
+                height: 50px;
+                margin: 10px 0;
+            }
+
+            .flow-arrow::after {
+                right: 50%;
+                top: auto;
+                bottom: 0;
+                transform: translateX(50%);
+                border: 8px solid transparent;
+                border-top: 10px solid #764ba2;
+                border-left: none;
+            }
+        }
+
+        /* 流程图样式 */
+        .flowchart-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .flowchart-title {
+            text-align: center;
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .flowchart {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .flow-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .flow-step-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(102, 126, 234, 0);
+            }
+        }
+
+        .flow-step-circle i {
+            font-size: 2em;
+            color: white;
+        }
+
+        .flow-step-label {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .flow-step-desc {
+            font-size: 0.9em;
+            color: #666;
+            max-width: 150px;
+            margin: 0 auto;
+        }
+
+        .flow-arrow {
+            flex: 1;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            margin: 0 10px;
+        }
+
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 8px solid transparent;
+            border-left: 10px solid #764ba2;
+        }
+
+        .flow-arrow.animated {
+            background: linear-gradient(90deg, #667eea 0%, transparent 100%);
+            animation: flowAnimation 2s infinite;
+        }
+
+        @keyframes flowAnimation {
+            0% {
+                background-position: -100% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* 时序图样式 */
+        .sequence-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            overflow-x: auto;
+        }
+
+        .sequence-title {
+            text-align: center;
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .sequence-diagram {
+            min-width: 900px;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .actors {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .actor {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .actor-circle {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 2em;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .actor-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 0.85em;
+        }
+
+        .timeline {
+            position: relative;
+            height: 400px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            opacity: 0.3;
+        }
+
+        .message {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.5s ease-out;
+        }
+
+        .message.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message-line {
+            height: 2px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+        }
+
+        .message-line::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 8px solid transparent;
+            border-left: 10px solid #764ba2;
+        }
+
+        .message-line.reverse::after {
+            right: auto;
+            left: -8px;
+            border-left: none;
+            border-right: 10px solid #667eea;
+        }
+
+        .message-text {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            font-size: 0.85em;
+            color: #333;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .message-text::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top: 10px solid white;
+        }
+
+        .play-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .play-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .play-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .play-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .progress-info {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .description {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .description h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .sequence-diagram {
+                min-width: auto;
+            }
+        }
+
+        @keyframes flowAnimation {
+            0% {
+                background-position: -100% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* 用户交互流程图样式 */
+        .user-flow-container {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .flow-progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .progress-label {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(46, 125, 50, 0.3);
+            transition: all 0.3s;
+        }
+
+        .progress-dot.active {
+            background: #667eea;
+            transform: scale(1.3);
+        }
+
+        .progress-dot.completed {
+            background: #00b894;
+        }
+
+        .progress-text {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .flow-steps-wrapper {
+            position: relative;
+            min-height: 400px;
+        }
+
+        .flow-step-card {
+            position: absolute;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .flow-step-card.active {
+            opacity: 1;
+            transform: scale(1.05);
+            border: 3px solid #667eea;
+            display: block;
+        }
+
+        .flow-step-card.completed {
+            border: 3px solid #00b894;
+        }
+
+        .step-icon {
+            font-size: 4em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .step-content h3 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .step-description {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.8;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .step-action, .step-result {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .step-action code {
+            background: #e3f2fd;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: #1976d2;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+
+        .flow-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .flow-btn {
+            padding: 12px 30px;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .flow-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .flow-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+
+        .flow-btn-primary:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .btn-icon {
+            font-size: 1.2em;
+        }
+
+        .flow-completion {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            margin-top: 20px;
+            animation: completionFadeIn 0.5s ease-out;
+        }
+
+        @keyframes completionFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .completion-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .flow-completion h3 {
+            color: #00b894;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .flow-completion p {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .flow-tips {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .flow-tips h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .flow-tips ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .flow-tips li {
+            color: #555;
+            font-size: 0.95em;
         }
     </style>
 </head>
@@ -434,7 +985,175 @@
 
         <div class="section">
             <h2>⚙️ 使用方法</h2>
-            
+
+            <div class="flowchart-container">
+                <h3 class="flowchart-title">🔄 Skills系统调用流程</h3>
+
+                <div class="flowchart">
+                    <div class="flow-step">
+                        <div class="flow-step-circle">
+                            <i>🎯</i>
+                        </div>
+                        <div class="flow-step-label">触发Skill</div>
+                        <div class="flow-step-desc">用户调用或自动选择</div>
+                    </div>
+
+                    <div class="flow-arrow animated"></div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-circle">
+                            <i>📋</i>
+                        </div>
+                        <div class="flow-step-label">加载配置</div>
+                        <div class="flow-step-desc">读取指令与参数</div>
+                    </div>
+
+                    <div class="flow-arrow animated"></div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-circle">
+                            <i>⚙️</i>
+                        </div>
+                        <div class="flow-step-label">执行任务</div>
+                        <div class="flow-step-desc">使用工具完成工作</div>
+                    </div>
+
+                    <div class="flow-arrow animated"></div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-circle">
+                            <i>✅</i>
+                        </div>
+                        <div class="flow-step-label">返回结果</div>
+                        <div class="flow-step-desc">输出完成报告</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 10px;">
+                    <h4 style="color: #667eea; margin-bottom: 15px;">📝 常用Skills调用示例</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div style="padding: 12px; background: #f0f0f0; border-radius: 8px;">
+                            <code style="font-size: 0.85em;">/skill code-review src/</code>
+                            <p style="margin-top: 5px; font-size: 0.85em; color: #666;">代码审查</p>
+                        </div>
+                        <div style="padding: 12px; background: #f0f0f0; border-radius: 8px;">
+                            <code style="font-size: 0.85em;">/skill test --coverage</code>
+                            <p style="margin-top: 5px; font-size: 0.85em; color: #666;">测试覆盖率</p>
+                        </div>
+                        <div style="padding: 12px; background: #f0f0f0; border-radius: 8px;">
+                            <code style="font-size: 0.85em;">/skill docs-generate</code>
+                            <p style="margin-top: 5px; font-size: 0.85em; color: #666;">文档生成</p>
+                        </div>
+                        <div style="padding: 12px; background: #f0f0f0; border-radius: 8px;">
+                            <code style="font-size: 0.85em;">/skill commit "message"</code>
+                            <p style="margin-top: 5px; font-size: 0.85em; color: #666;">Git提交</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sequence-container" style="margin-top: 50px;">
+                <h3 class="sequence-title">🛠️ Skill完整执行时序图</h3>
+
+                <div class="sequence-diagram" id="skillSequence">
+                    <div class="actors">
+                        <div class="actor">
+                            <div class="actor-circle">👤</div>
+                            <div class="actor-name">用户</div>
+                        </div>
+                        <div class="actor">
+                            <div class="actor-circle">💻</div>
+                            <div class="actor-name">Claude Code</div>
+                        </div>
+                        <div class="actor">
+                            <div class="actor-circle">🎯</div>
+                            <div class="actor-name">Skill Runner</div>
+                        </div>
+                        <div class="actor">
+                            <div class="actor-circle">🤖</div>
+                            <div class="actor-name">Subagent</div>
+                        </div>
+                        <div class="actor">
+                            <div class="actor-circle">🔧</div>
+                            <div class="actor-name">MCP工具集</div>
+                        </div>
+                        <div class="actor">
+                            <div class="actor-circle">📊</div>
+                            <div class="actor-name">输出结果</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline">
+                        <div class="timeline-line" style="left: 8.33%;"></div>
+                        <div class="timeline-line" style="left: 25%;"></div>
+                        <div class="timeline-line" style="left: 41.66%;"></div>
+                        <div class="timeline-line" style="left: 58.33%;"></div>
+                        <div class="timeline-line" style="left: 75%;"></div>
+                        <div class="timeline-line" style="left: 91.66%;"></div>
+
+                        <!-- 触发阶段 -->
+                        <div class="message" style="top: 20px; left: 8.33%; width: 16.67%;">
+                            <div class="message-text" style="left: 0;">调用Skill</div>
+                            <div class="message-line" style="width: 100%;"></div>
+                        </div>
+
+                        <div class="message" style="top: 60px; left: 25%; width: 16.66%;">
+                            <div class="message-text" style="left: 0;">解析命令</div>
+                            <div class="message-line" style="width: 100%;"></div>
+                        </div>
+
+                        <div class="message" style="top: 100px; left: 41.66%; width: 16.67%;">
+                            <div class="message-text" style="left: 0;">加载配置</div>
+                            <div class="message-line" style="width: 100%;"></div>
+                        </div>
+
+                        <!-- 执行阶段 -->
+                        <div class="message" style="top: 150px; left: 41.66%; width: 16.67%;">
+                            <div class="message-text" style="left: 0;">启动Subagent</div>
+                            <div class="message-line" style="width: 100%;"></div>
+                        </div>
+
+                        <div class="message" style="top: 190px; left: 58.33%; width: 16.67%;">
+                            <div class="message-text" style="left: 0;">分析任务</div>
+                            <div class="message-line" style="width: 100%;"></div>
+                        </div>
+
+                        <div class="message reverse" style="top: 230px; left: 75%; width: 16.66%;">
+                            <div class="message-text" style="left: 0;">调用工具</div>
+                            <div class="message-line reverse" style="width: 100%;"></div>
+                        </div>
+
+                        <div class="message" style="top: 270px; left: 75%; width: 16.66%;">
+                            <div class="message-text" style="left: 0;">执行操作</div>
+                            <div class="message-line" style="width: 100%;"></div>
+                        </div>
+
+                        <!-- 返回阶段 -->
+                        <div class="message reverse" style="top: 320px; left: 75%; width: 16.66%;">
+                            <div class="message-text" style="left: 0;">返回数据</div>
+                            <div class="message-line reverse" style="width: 100%;"></div>
+                        </div>
+
+                        <div class="message reverse" style="top: 360px; left: 58.33%; width: 16.67%;">
+                            <div class="message-text" style="left: 0;">处理结果</div>
+                            <div class="message-line reverse" style="width: 100%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="play-controls">
+                        <button class="play-btn" onclick="playSequence('skill')">▶ 播放动画</button>
+                        <span class="progress-info" id="skillProgress">准备就绪</span>
+                    </div>
+
+                    <div class="description">
+                        <h4>📝 Skills执行流程说明</h4>
+                        <p><strong>触发阶段</strong>：用户通过斜杠命令（如/skill code-review）或Claude自动选择触发Skill，Skill Runner解析参数并加载配置。</p>
+                        <p style="margin-top: 10px;"><strong>执行阶段</strong>：Skill启动独立的Subagent（子代理），该代理拥有完整的工具访问权限，可以自主调用MCP工具集完成任务。</p>
+                        <p style="margin-top: 10px;"><strong>返回阶段</strong>：Subagent处理工具返回的数据，生成最终结果输出。Skills本质上是具有专业知识的AI代理，能够独立思考和决策。</p>
+                    </div>
+                </div>
+            </div>
+
             <h3>基本用法</h3>
             <div class="code-block"># 查看所有可用Skills
 /skills
@@ -567,6 +1286,294 @@ EOF
                 <li>💻 <a href="https://www.codecademy.com/article/how-to-build-claude-skills" target="_blank" style="color: #667eea;">How to Build Claude Skills: Tutorial</a></li>
             </ul>
         </div> -->
+
+        <!-- 用户交互流程图部分 -->
+<!--
+        <div class="user-flow-container">
+            <div class="flow-progress">
+                <span class="progress-label">步骤</span>
+                <div class="progress-dots">
+                    <span class="progress-dot active" data-step="1"></span>
+                    <span class="progress-dot" data-step="2"></span>
+                    <span class="progress-dot" data-step="3"></span>
+                    <span class="progress-dot" data-step="4"></span>
+                    <span class="progress-dot" data-step="5"></span>
+                    <span class="progress-dot" data-step="6"></span>
+                </div>
+                <span class="progress-text">1/6</span>
+            </div>
+
+            <div class="flow-steps-wrapper">
+                <div class="flow-step-card" data-step="1">
+                    <div class="step-icon">💬</div>
+                    <div class="step-content">
+                        <h3 class="step-title">输入斜杠命令</h3>
+                        <p class="step-description">在Claude Code对话中输入斜杠命令（如/test、/review）调用技能</p>
+                        <div class="step-action">
+                            <strong>用户操作：</strong>
+                            输入 <code>/test</code> 或其他斜杠命令
+                        </div>
+                        <div class="step-result">
+                            <strong>预期结果：</strong>Claude识别命令，准备调用对应技能
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-step-card" data-step="2">
+                    <div class="step-icon">🎯</div>
+                    <div class="step-content">
+                        <h3 class="step-title">选择技能</h3>
+                        <p class="step-description">Claude根据命令查找并选择对应的技能配置文件</p>
+                        <div class="step-action">
+                            <strong>用户操作：</strong>
+                            系统自动匹配技能（无需手动操作）
+                        </div>
+                        <div class="step-result">
+                            <strong>预期结果：</strong>找到技能定义，加载相关配置
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-step-card" data-step="3">
+                    <div class="step-icon">📝</div>
+                    <div class="step-content">
+                        <h3 class="step-title">传递参数</h3>
+                        <p class="step-description">将命令参数和上下文信息传递给技能执行环境</p>
+                        <div class="step-action">
+                            <strong>用户操作：</strong>
+                            提供必要参数（如文件路径、选项等）
+                        </div>
+                        <div class="step-result">
+                            <strong>预期结果：</strong>参数解析完成，准备执行技能
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-step-card" data-step="4">
+                    <div class="step-icon">⚙️</div>
+                    <div class="step-content">
+                        <h3 class="step-title">执行技能</h3>
+                        <p class="step-description">Claude按照技能定义的步骤执行任务，调用必要的工具和命令</p>
+                        <div class="step-action">
+                            <strong>用户操作：</strong>
+                            观察执行过程，可随时中断
+                        </div>
+                        <div class="step-result">
+                            <strong>预期结果：</strong>技能按定义流程自动执行
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-step-card" data-step="5">
+                    <div class="step-icon">📊</div>
+                    <div class="step-content">
+                        <h3 class="step-title">查看执行进度</h3>
+                        <p class="step-description">实时查看技能执行的进度、日志和中间结果</p>
+                        <div class="step-action">
+                            <strong>用户操作：</strong>
+                            查看终端输出和进度提示
+                        </div>
+                        <div class="step-result">
+                            <strong>预期结果：</strong>清晰了解当前执行状态和完成度
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-step-card" data-step="6">
+                    <div class="step-icon">✅</div>
+                    <div class="step-content">
+                        <h3 class="step-title">获取执行结果</h3>
+                        <p class="step-description">技能执行完成，返回最终结果和报告</p>
+                        <div class="step-action">
+                            <strong>用户操作：</strong>
+                            审查结果并采取后续行动
+                        </div>
+                        <div class="step-result">
+                            <strong>预期结果：</strong>获得完整的执行报告和输出文件
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-controls">
+                <button class="flow-btn" onclick="previousFlowStep()">
+                    <span class="btn-icon">←</span> 上一步
+                </button>
+                <button class="flow-btn flow-btn-primary" onclick="playFlowDemo()">
+                    <span class="btn-icon">▶</span> 自动演示
+                </button>
+                <button class="flow-btn flow-btn-primary" onclick="nextFlowStep()">
+                    下一步 <span class="btn-icon">→</span>
+                </button>
+            </div>
+
+            <div class="flow-completion" id="flowCompletion" style="display: none;">
+                <div class="completion-icon">🎉</div>
+                <h3>恭喜！您已完成技能调用流程学习</h3>
+                <p>现在您可以使用Claude Code的技能系统，通过斜杠命令快速执行复杂任务</p>
+                <button class="flow-btn flow-btn-primary" onclick="resetFlowDemo()">重新学习</button>
+            </div>
+
+            <div class="flow-tips">
+                <h4>💡 键盘快捷键</h4>
+                <ul>
+                    <li><strong>← →</strong> : 切换步骤</li>
+                    <li><strong>空格键</strong> : 播放/暂停自动演示</li>
+                </ul>
+            </div>
+        </div>
+-->
     </div>
+
+    <script>
+        // 用户交互流程图控制变量
+        let currentFlowStep = 1;
+        const totalFlowSteps = 6;
+        let flowDemoInterval = null;
+        let isFlowDemoPlaying = false;
+
+        function updateFlowStep() {
+            const steps = document.querySelectorAll('.flow-step-card');
+            const dots = document.querySelectorAll('.progress-dot');
+            const progressText = document.querySelector('.progress-text');
+
+            steps.forEach((step, index) => {
+                const stepNum = index + 1;
+                step.classList.remove('active', 'completed');
+                if (stepNum === currentFlowStep) {
+                    step.classList.add('active');
+                } else if (stepNum < currentFlowStep) {
+                    step.classList.add('completed');
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                const stepNum = index + 1;
+                dot.classList.remove('active', 'completed');
+                if (stepNum === currentFlowStep) {
+                    dot.classList.add('active');
+                } else if (stepNum < currentFlowStep) {
+                    dot.classList.add('completed');
+                }
+            });
+
+            progressText.textContent = `${currentFlowStep}/${totalFlowSteps}`;
+
+            if (currentFlowStep > totalFlowSteps) {
+                document.getElementById('flowCompletion').style.display = 'block';
+                document.querySelector('.flow-controls').style.display = 'none';
+                stopFlowDemo();
+            }
+        }
+
+        function nextFlowStep() {
+            if (currentFlowStep <= totalFlowSteps) {
+                currentFlowStep++;
+                updateFlowStep();
+            }
+        }
+
+        function previousFlowStep() {
+            if (currentFlowStep > 1) {
+                currentFlowStep--;
+                updateFlowStep();
+                document.getElementById('flowCompletion').style.display = 'none';
+                document.querySelector('.flow-controls').style.display = 'flex';
+            }
+        }
+
+        function playFlowDemo() {
+            if (isFlowDemoPlaying) {
+                stopFlowDemo();
+                return;
+            }
+            isFlowDemoPlaying = true;
+            currentFlowStep = 1;
+            updateFlowStep();
+            flowDemoInterval = setInterval(() => {
+                if (currentFlowStep > totalFlowSteps) {
+                    stopFlowDemo();
+                } else {
+                    nextFlowStep();
+                }
+            }, 2000);
+        }
+
+        function stopFlowDemo() {
+            if (flowDemoInterval) {
+                clearInterval(flowDemoInterval);
+                flowDemoInterval = null;
+            }
+            isFlowDemoPlaying = false;
+        }
+
+        function resetFlowDemo() {
+            stopFlowDemo();
+            currentFlowStep = 1;
+            updateFlowStep();
+            document.getElementById('flowCompletion').style.display = 'none';
+            document.querySelector('.flow-controls').style.display = 'flex';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextFlowStep();
+            } else if (e.key === 'ArrowLeft') {
+                previousFlowStep();
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                playFlowDemo();
+            }
+        });
+
+        // 时序图动画控制
+        let isPlaying = {};
+
+        function playSequence(type) {
+            const sequenceId = type + 'Sequence';
+            const progressId = type + 'Progress';
+            const sequence = document.getElementById(sequenceId);
+            const progress = document.getElementById(progressId);
+            const messages = sequence.querySelectorAll('.message');
+            const button = sequence.querySelector('.play-btn');
+
+            if (isPlaying[type]) {
+                return;
+            }
+
+            isPlaying[type] = true;
+            button.disabled = true;
+            button.textContent = '播放中...';
+
+            // 重置所有消息
+            messages.forEach(msg => msg.classList.remove('active'));
+
+            let currentIndex = 0;
+            const totalMessages = messages.length;
+
+            function showNextMessage() {
+                if (currentIndex < totalMessages) {
+                    messages[currentIndex].classList.add('active');
+                    progress.textContent = `执行中: ${currentIndex + 1}/${totalMessages}`;
+                    currentIndex++;
+                    setTimeout(showNextMessage, 800);
+                } else {
+                    progress.textContent = '✓ 执行完成';
+                    button.textContent = '▶ 重新播放';
+                    button.disabled = false;
+                    isPlaying[type] = false;
+
+                    // 3秒后重置
+                    setTimeout(() => {
+                        messages.forEach(msg => msg.classList.remove('active'));
+                        progress.textContent = '准备就绪';
+                        button.textContent = '▶ 播放动画';
+                    }, 3000);
+                }
+            }
+
+            showNextMessage();
+        }
+    </script>
 </body>
 </html>

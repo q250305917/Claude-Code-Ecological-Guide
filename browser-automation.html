@@ -262,6 +262,190 @@
             background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
         }
 
+        /* 时序图样式 */
+        .sequence-diagram-container {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sequence-diagram-title {
+            text-align: center;
+            color: #d63031;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .sequence-diagram {
+            position: relative;
+            height: 600px;
+            margin: 40px 20px;
+        }
+
+        .sequence-actor {
+            position: absolute;
+            top: 0;
+            width: 150px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .sequence-actor-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.5em;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: actorPulse 2s infinite;
+        }
+
+        @keyframes actorPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .sequence-actor-name {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .sequence-lifeline {
+            position: absolute;
+            top: 80px;
+            bottom: 0;
+            width: 2px;
+            background: repeating-linear-gradient(
+                to bottom,
+                #667eea 0px,
+                #667eea 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .sequence-message {
+            position: absolute;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            font-size: 0.9em;
+            max-width: 200px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: messageFadeIn 0.5s ease-out forwards;
+            z-index: 5;
+        }
+
+        .sequence-message::before {
+            content: '';
+            position: absolute;
+            background: #667eea;
+            height: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .sequence-message.left-to-right::before {
+            left: -50px;
+            width: 50px;
+        }
+
+        .sequence-message.right-to-left::before {
+            right: -50px;
+            width: 50px;
+        }
+
+        .sequence-message.left-to-right::after {
+            content: '';
+            position: absolute;
+            left: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-left: 8px solid #667eea;
+        }
+
+        .sequence-message.right-to-left::after {
+            content: '';
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-right: 8px solid #667eea;
+        }
+
+        @keyframes messageFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sequence-note {
+            position: absolute;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            font-size: 0.85em;
+            max-width: 220px;
+            opacity: 0;
+            animation: noteFadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes noteFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .play-button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .play-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .play-button:active {
+            transform: translateY(0);
+        }
+
         @media (max-width: 768px) {
             .comparison-grid, .pros-cons {
                 grid-template-columns: 1fr;
@@ -270,6 +454,357 @@
             .header, .section {
                 padding: 20px;
             }
+
+            .flowchart {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                width: 3px;
+                height: 50px;
+                margin: 10px 0;
+            }
+
+            .flow-arrow::after {
+                right: 50%;
+                top: auto;
+                bottom: 0;
+                transform: translateX(50%);
+                border: 8px solid transparent;
+                border-top: 10px solid #764ba2;
+                border-left: none;
+            }
+        }
+
+        /* 流程图样式 */
+        .flowchart-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .flowchart-title {
+            text-align: center;
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .flowchart {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .flow-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .flow-step-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(102, 126, 234, 0);
+            }
+        }
+
+        .flow-step-circle i {
+            font-size: 2em;
+            color: white;
+        }
+
+        .flow-step-label {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .flow-step-desc {
+            font-size: 0.9em;
+            color: #666;
+            max-width: 150px;
+            margin: 0 auto;
+        }
+
+        .flow-arrow {
+            flex: 1;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            margin: 0 10px;
+        }
+
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 8px solid transparent;
+            border-left: 10px solid #764ba2;
+        }
+
+        .flow-arrow.animated {
+            background: linear-gradient(90deg, #667eea 0%, transparent 100%);
+            animation: flowAnimation 2s infinite;
+        }
+
+        @keyframes flowAnimation {
+            0% {
+                background-position: -100% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* 用户交互流程图样式 */
+        .user-flow-container {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .flow-progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .progress-label {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(46, 125, 50, 0.3);
+            transition: all 0.3s;
+        }
+
+        .progress-dot.active {
+            background: #667eea;
+            transform: scale(1.3);
+        }
+
+        .progress-dot.completed {
+            background: #00b894;
+        }
+
+        .progress-text {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .flow-steps-wrapper {
+            position: relative;
+            min-height: 400px;
+        }
+
+        .flow-step-card {
+            position: absolute;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .flow-step-card.active {
+            opacity: 1;
+            transform: scale(1.05);
+            border: 3px solid #667eea;
+            display: block;
+        }
+
+        .flow-step-card.completed {
+            border: 3px solid #00b894;
+        }
+
+        .step-icon {
+            font-size: 4em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .step-content h3 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .step-description {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.8;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .step-action, .step-result {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .step-action code {
+            background: #e3f2fd;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: #1976d2;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+
+        .flow-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .flow-btn {
+            padding: 12px 30px;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .flow-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .flow-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+
+        .flow-btn-primary:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .btn-icon {
+            font-size: 1.2em;
+        }
+
+        .flow-completion {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            margin-top: 20px;
+            animation: completionFadeIn 0.5s ease-out;
+        }
+
+        @keyframes completionFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .completion-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .flow-completion h3 {
+            color: #00b894;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .flow-completion p {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .flow-tips {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .flow-tips h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .flow-tips ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .flow-tips li {
+            color: #555;
+            font-size: 0.95em;
         }
     </style>
 </head>
@@ -484,8 +1019,77 @@ claude --chrome
             </div>
         </div>
 
+<!--
         <div class="section">
-            <h2>🔧 Chrome DevTools MCP 深度解析（2025最新版）</h2>
+            <h2>💡 选择建议与调用流程</h2>
+
+            <div class="flowchart-container">
+                <h3 class="flowchart-title">🔄 浏览器自动化调用流程</h3>
+
+                <div class="flowchart">
+                    <div class="flow-step">
+                        <div class="flow-step-circle">
+                            <i>🌐</i>
+                        </div>
+                        <div class="flow-step-label">启动浏览器</div>
+                        <div class="flow-step-desc">Chrome扩展或MCP</div>
+                    </div>
+
+                    <div class="flow-arrow animated"></div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-circle">
+                            <i>🎯</i>
+                        </div>
+                        <div class="flow-step-label">页面导航</div>
+                        <div class="flow-step-desc">打开URL执行操作</div>
+                    </div>
+
+                    <div class="flow-arrow animated"></div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-circle">
+                            <i>📊</i>
+                        </div>
+                        <div class="flow-step-label">数据采集</div>
+                        <div class="flow-step-desc">Console/Network分析</div>
+                    </div>
+
+                    <div class="flow-arrow animated"></div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-circle">
+                            <i>✅</i>
+                        </div>
+                        <div class="flow-step-label">结果返回</div>
+                        <div class="flow-step-desc">报告与修复建议</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 10px;">
+                    <h4 style="color: #667eea; margin-bottom: 15px;">📝 浏览器自动化调用示例</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+                        <div style="padding: 12px; background: #f0f0f0; border-radius: 8px;">
+                            <h5 style="color: #667eea; margin-bottom: 8px; font-size: 0.95em;">Claude for Chrome</h5>
+                            <code style="font-size: 0.8em;">claude &#45;&#45;chrome</code>
+                            <p style="margin-top: 5px; font-size: 0.85em; color: #666;">启动Chrome集成</p>
+                        </div>
+                        <div style="padding: 12px; background: #f0f0f0; border-radius: 8px;">
+                            <h5 style="color: #667eea; margin-bottom: 8px; font-size: 0.95em;">DevTools MCP</h5>
+                            <code style="font-size: 0.8em;">claude mcp add chrome-devtools</code>
+                            <p style="margin-top: 5px; font-size: 0.85em; color: #666;">添加MCP服务器</p>
+                        </div>
+                        <div style="padding: 12px; background: #f0f0f0; border-radius: 8px;">
+                            <h5 style="color: #667eea; margin-bottom: 8px; font-size: 0.95em;">典型任务</h5>
+                            <code style="font-size: 0.8em;">"打开登录页并测试"</code>
+                            <p style="margin-top: 5px; font-size: 0.85em; color: #666;">自然语言指令</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+&lt;!&ndash;
+            <div class="pros-cons">
 
             <h3>🎯 技术本质：CDP协议层</h3>
             <p><strong>Chrome DevTools Protocol (CDP)</strong>是底层协议，而chrome-devtools-mcp是MCP封装，让AI助手通过CDP控制浏览器。</p>
@@ -558,9 +1162,9 @@ claude mcp add chrome-devtools npx chrome-devtools-mcp@latest
       "command": "npx",
       "args": [
         "chrome-devtools-mcp@latest",
-        "--channel=canary",
-        "--headless=true",
-        "--isolated=true"
+        "&#45;&#45;channel=canary",
+        "&#45;&#45;headless=true",
+        "&#45;&#45;isolated=true"
       ]
     }
   }
@@ -577,6 +1181,7 @@ claude mcp add chrome-devtools npx chrome-devtools-mcp@latest
                 </ul>
             </div>
         </div>
+&ndash;&gt;
 
         <div class="section">
             <h2>💡 选择建议</h2>
@@ -605,6 +1210,121 @@ claude mcp add chrome-devtools npx chrome-devtools-mcp@latest
                 </div>
             </div>
 
+            &lt;!&ndash; 时序图部分 &ndash;&gt;
+            <div class="sequence-diagram-container">
+                <h3 class="sequence-diagram-title">🎬 Chrome DevTools 协议调用时序图（可交互动画）</h3>
+                <button class="play-button" onclick="playSequenceAnimation()">▶️ 播放时序动画</button>
+
+                <div class="sequence-diagram" id="sequenceDiagram">
+                    &lt;!&ndash; 用户 Actor &ndash;&gt;
+                    <div class="sequence-actor" style="left: 5%;">
+                        <div class="sequence-actor-icon">👤</div>
+                        <div class="sequence-actor-name">用户</div>
+                        <div class="sequence-lifeline"></div>
+                    </div>
+
+                    &lt;!&ndash; Claude Code Actor &ndash;&gt;
+                    <div class="sequence-actor" style="left: 25%;">
+                        <div class="sequence-actor-icon">🤖</div>
+                        <div class="sequence-actor-name">Claude Code</div>
+                        <div class="sequence-lifeline"></div>
+                    </div>
+
+                    &lt;!&ndash; CDP/MCP Actor &ndash;&gt;
+                    <div class="sequence-actor" style="left: 45%;">
+                        <div class="sequence-actor-icon">🔌</div>
+                        <div class="sequence-actor-name">CDP/MCP</div>
+                        <div class="sequence-lifeline"></div>
+                    </div>
+
+                    &lt;!&ndash; Chrome Browser Actor &ndash;&gt;
+                    <div class="sequence-actor" style="left: 65%;">
+                        <div class="sequence-actor-icon">🌐</div>
+                        <div class="sequence-actor-name">Chrome浏览器</div>
+                        <div class="sequence-lifeline"></div>
+                    </div>
+
+                    &lt;!&ndash; Web Page Actor &ndash;&gt;
+                    <div class="sequence-actor" style="left: 85%;">
+                        <div class="sequence-actor-icon">📄</div>
+                        <div class="sequence-actor-name">网页</div>
+                        <div class="sequence-lifeline"></div>
+                    </div>
+
+                    &lt;!&ndash; 消息1: 用户发起任务 &ndash;&gt;
+                    <div class="sequence-message left-to-right" id="msg1" style="left: 5%; top: 120px; animation-delay: 0s;">
+                        发起浏览器任务
+                    </div>
+
+                    &lt;!&ndash; 消息2: 解析指令 &ndash;&gt;
+                    <div class="sequence-message left-to-right" id="msg2" style="left: 25%; top: 180px; animation-delay: 0.8s;">
+                        解析任务指令
+                    </div>
+
+                    &lt;!&ndash; 消息3: CDP调用 &ndash;&gt;
+                    <div class="sequence-message left-to-right" id="msg3" style="left: 25%; top: 240px; animation-delay: 1.6s;">
+                        发送CDP命令
+                    </div>
+
+                    &lt;!&ndash; 消息4: 浏览器执行 &ndash;&gt;
+                    <div class="sequence-message left-to-right" id="msg4" style="left: 45%; top: 300px; animation-delay: 2.4s;">
+                        执行浏览器操作
+                    </div>
+
+                    &lt;!&ndash; 消息5: 页面交互 &ndash;&gt;
+                    <div class="sequence-message left-to-right" id="msg5" style="left: 65%; top: 360px; animation-delay: 3.2s;">
+                        点击/输入/导航
+                    </div>
+
+                    &lt;!&ndash; 消息6: 页面响应 &ndash;&gt;
+                    <div class="sequence-message right-to-left" id="msg6" style="left: 65%; top: 420px; animation-delay: 4s;">
+                        返回DOM/Console
+                    </div>
+
+                    &lt;!&ndash; 消息7: 结果返回 &ndash;&gt;
+                    <div class="sequence-message right-to-left" id="msg7" style="left: 45%; top: 480px; animation-delay: 4.8s;">
+                        返回执行结果
+                    </div>
+
+                    &lt;!&ndash; 消息8: 最终输出 &ndash;&gt;
+                    <div class="sequence-message right-to-left" id="msg8" style="left: 5%; top: 540px; animation-delay: 5.6s;">
+                        返回分析报告
+                    </div>
+
+                    &lt;!&ndash; 注释1 &ndash;&gt;
+                    <div class="sequence-note" id="note1" style="left: 10%; top: 270px; animation-delay: 2s;">
+                        <strong>💡 CDP协议</strong><br>
+                        Chrome DevTools Protocol提供底层控制能力
+                    </div>
+
+                    &lt;!&ndash; 注释2 &ndash;&gt;
+                    <div class="sequence-note" id="note2" style="left: 50%; top: 390px; animation-delay: 3.8s;">
+                        <strong>🎯 原生控制</strong><br>
+                        直接操作真实浏览器,保留登录状态
+                    </div>
+
+                    &lt;!&ndash; 注释3 &ndash;&gt;
+                    <div class="sequence-note" id="note3" style="left: 30%; top: 500px; animation-delay: 5.2s;">
+                        <strong>📊 实时反馈</strong><br>
+                        获取Console日志、Network请求、性能指标
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 10px;">
+                    <h4 style="color: #667eea; margin-bottom: 10px; text-align: center;">📝 时序图说明</h4>
+                    <ul style="line-height: 2; margin-left: 20px;">
+                        <li><strong>用户 → Claude Code</strong>：发起浏览器任务（如"测试登录功能"、"分析性能"）</li>
+                        <li><strong>Claude Code → CDP/MCP</strong>：解析指令,生成Chrome DevTools Protocol命令</li>
+                        <li><strong>CDP/MCP → Chrome浏览器</strong>：通过CDP协议控制浏览器（点击、输入、导航等）</li>
+                        <li><strong>Chrome浏览器 → 网页</strong>：在真实浏览器中执行操作,保留登录状态和扩展</li>
+                        <li><strong>网页 → Chrome浏览器</strong>：返回DOM快照、Console日志、Network请求等数据</li>
+                        <li><strong>Chrome浏览器 → CDP/MCP</strong>：将浏览器数据转换为结构化格式</li>
+                        <li><strong>CDP/MCP → Claude Code</strong>：返回执行结果和性能分析</li>
+                        <li><strong>Claude Code → 用户</strong>：生成测试报告、性能分析或修复建议</li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="feature-box" style="margin-top: 30px;">
                 <h4>🎯 最佳实践</h4>
                 <ol style="line-height: 2; margin-left: 20px;">
@@ -614,9 +1334,135 @@ claude mcp add chrome-devtools npx chrome-devtools-mcp@latest
                     <li><strong>团队协作</strong>：Chrome插件共享开发环境</li>
                 </ol>
             </div>
+
+            &lt;!&ndash; 用户交互流程图部分 &ndash;&gt;
+&lt;!&ndash;
+            <div class="user-flow-container">
+                <div class="flow-progress">
+                    <span class="progress-label">步骤</span>
+                    <div class="progress-dots">
+                        <span class="progress-dot active" data-step="1"></span>
+                        <span class="progress-dot" data-step="2"></span>
+                        <span class="progress-dot" data-step="3"></span>
+                        <span class="progress-dot" data-step="4"></span>
+                        <span class="progress-dot" data-step="5"></span>
+                    </div>
+                    <span class="progress-text">1/5</span>
+                </div>
+
+                <div class="flow-steps-wrapper">
+                    &lt;!&ndash; 步骤1: 启动Chrome浏览器 &ndash;&gt;
+                    <div class="flow-step-card" data-step="1">
+                        <div class="step-icon">🌐</div>
+                        <div class="step-content">
+                            <h3 class="step-title">启动Chrome浏览器</h3>
+                            <p class="step-description">通过Claude for Chrome插件或Chrome DevTools MCP服务器启动浏览器会话</p>
+                            <div class="step-action">
+                                <strong>用户操作：</strong>
+                                <code>claude &#45;&#45;chrome</code> 或在对话中输入 <code>/chrome</code>
+                            </div>
+                            <div class="step-result">
+                                <strong>预期结果：</strong>Chrome浏览器自动打开，显示Claude侧边栏
+                            </div>
+                        </div>
+                    </div>
+
+                    &lt;!&ndash; 步骤2: 连接浏览器并选择页面 &ndash;&gt;
+                    <div class="flow-step-card" data-step="2">
+                        <div class="step-icon">🔌</div>
+                        <div class="step-content">
+                            <h3 class="step-title">连接浏览器并选择页面</h3>
+                            <p class="step-description">Claude通过CDP协议连接到Chrome，获取当前打开的页面列表</p>
+                            <div class="step-action">
+                                <strong>用户操作：</strong>
+                                在对话中描述任务，如"打开我的博客并分析性能"
+                            </div>
+                            <div class="step-result">
+                                <strong>预期结果：</strong>Claude列出所有打开的标签页供选择，或自动打开新页面
+                            </div>
+                        </div>
+                    </div>
+
+                    &lt;!&ndash; 步骤3: 执行浏览器操作 &ndash;&gt;
+                    <div class="flow-step-card" data-step="3">
+                        <div class="step-icon">🎯</div>
+                        <div class="step-content">
+                            <h3 class="step-title">执行浏览器操作</h3>
+                            <p class="step-description">Claude根据任务指令自动执行点击、输入、导航等操作</p>
+                            <div class="step-action">
+                                <strong>用户操作：</strong>
+                                观察Claude实时操作，可随时暂停或调整
+                            </div>
+                            <div class="step-result">
+                                <strong>预期结果：</strong>浏览器自动完成指定操作（填表单、点按钮、翻页面等）
+                            </div>
+                        </div>
+                    </div>
+
+                    &lt;!&ndash; 步骤4: 采集调试数据 &ndash;&gt;
+                    <div class="flow-step-card" data-step="4">
+                        <div class="step-icon">📊</div>
+                        <div class="step-content">
+                            <h3 class="step-title">采集调试数据</h3>
+                            <p class="step-description">实时获取Console日志、Network请求、DOM快照等调试信息</p>
+                            <div class="step-action">
+                                <strong>用户操作：</strong>
+                                等待数据采集完成，可要求查看特定类型数据
+                            </div>
+                            <div class="step-result">
+                                <strong>预期结果：</strong>显示错误日志、请求响应时间、性能指标等结构化数据
+                            </div>
+                        </div>
+                    </div>
+
+                    &lt;!&ndash; 步骤5: 生成报告并修复 &ndash;&gt;
+                    <div class="flow-step-card" data-step="5">
+                        <div class="step-icon">✅</div>
+                        <div class="step-content">
+                            <h3 class="step-title">生成报告并修复</h3>
+                            <p class="step-description">基于采集的数据生成分析报告，自动定位问题并提供修复方案</p>
+                            <div class="step-action">
+                                <strong>用户操作：</strong>
+                                审查报告，确认修复建议后让Claude自动修改代码
+                            </div>
+                            <div class="step-result">
+                                <strong>预期结果：</strong>获得完整的测试报告、性能分析或已修复的代码
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-controls">
+                    <button class="flow-btn" onclick="previousFlowStep()">
+                        <span class="btn-icon">←</span> 上一步
+                    </button>
+                    <button class="flow-btn flow-btn-primary" onclick="playFlowDemo()">
+                        <span class="btn-icon">▶</span> 自动演示
+                    </button>
+                    <button class="flow-btn flow-btn-primary" onclick="nextFlowStep()">
+                        下一步 <span class="btn-icon">→</span>
+                    </button>
+                </div>
+
+                <div class="flow-completion" id="flowCompletion" style="display: none;">
+                    <div class="completion-icon">🎉</div>
+                    <h3>恭喜！您已完成浏览器自动化操作流程学习</h3>
+                    <p>现在您可以尝试使用Claude for Chrome或Chrome DevTools MCP来自动化浏览器操作了</p>
+                    <button class="flow-btn flow-btn-primary" onclick="resetFlowDemo()">重新学习</button>
+                </div>
+
+                <div class="flow-tips">
+                    <h4>💡 键盘快捷键</h4>
+                    <ul>
+                        <li><strong>← →</strong> : 切换步骤</li>
+                        <li><strong>空格键</strong> : 播放/暂停自动演示</li>
+                    </ul>
+                </div>
+            </div>
+&ndash;&gt;
         </div>
 
-        <!-- <div class="section">
+        &lt;!&ndash; <div class="section">
             <h2>🔗 相关资源与参考资料（2025更新）</h2>
             <ul style="line-height: 2;">
                 <li>📖 <a href="https://www.aivi.fyi/aiagents/introduce-Claude-Code-for-Chrome" target="_blank" style="color: #667eea;">Claude for Chrome 完整教程与深度测评</a></li>
@@ -630,7 +1476,158 @@ claude mcp add chrome-devtools npx chrome-devtools-mcp@latest
                 <li>📖 <a href="https://jimmysong.io/zh/blog/web-automation-advancement/" target="_blank" style="color: #667eea;">Chrome DevTools MCP：前端开发自动化又上了一个新台阶</a></li>
                 <li>🎬 <a href="https://www.bilibili.com/video/BV1xW4y1V7Xr" target="_blank" style="color: #667eea;">视频教程：B站</a></li>
             </ul>
-        </div> -->
+        </div> &ndash;&gt;
     </div>
+-->
+
+    <script>
+        // 用户交互流程图控制变量
+        let currentFlowStep = 1;
+        const totalFlowSteps = 5;
+        let flowDemoInterval = null;
+        let isFlowDemoPlaying = false;
+
+        // 更新流程步骤显示
+        function updateFlowStep() {
+            const steps = document.querySelectorAll('.flow-step-card');
+            const dots = document.querySelectorAll('.progress-dot');
+            const progressText = document.querySelector('.progress-text');
+
+            // 更新步骤卡片
+            steps.forEach((step, index) => {
+                const stepNum = index + 1;
+                step.classList.remove('active', 'completed');
+
+                if (stepNum === currentFlowStep) {
+                    step.classList.add('active');
+                } else if (stepNum < currentFlowStep) {
+                    step.classList.add('completed');
+                }
+            });
+
+            // 更新进度点
+            dots.forEach((dot, index) => {
+                const stepNum = index + 1;
+                dot.classList.remove('active', 'completed');
+
+                if (stepNum === currentFlowStep) {
+                    dot.classList.add('active');
+                } else if (stepNum < currentFlowStep) {
+                    dot.classList.add('completed');
+                }
+            });
+
+            // 更新进度文本
+            progressText.textContent = `${currentFlowStep}/${totalFlowSteps}`;
+
+            // 检查是否完成所有步骤
+            if (currentFlowStep > totalFlowSteps) {
+                document.getElementById('flowCompletion').style.display = 'block';
+                document.querySelector('.flow-controls').style.display = 'none';
+                stopFlowDemo();
+            }
+        }
+
+        // 下一步
+        function nextFlowStep() {
+            if (currentFlowStep <= totalFlowSteps) {
+                currentFlowStep++;
+                updateFlowStep();
+            }
+        }
+
+        // 上一步
+        function previousFlowStep() {
+            if (currentFlowStep > 1) {
+                currentFlowStep--;
+                updateFlowStep();
+                document.getElementById('flowCompletion').style.display = 'none';
+                document.querySelector('.flow-controls').style.display = 'flex';
+            }
+        }
+
+        // 自动演示
+        function playFlowDemo() {
+            if (isFlowDemoPlaying) {
+                stopFlowDemo();
+                return;
+            }
+
+            isFlowDemoPlaying = true;
+            currentFlowStep = 1;
+            updateFlowStep();
+
+            flowDemoInterval = setInterval(() => {
+                if (currentFlowStep > totalFlowSteps) {
+                    stopFlowDemo();
+                } else {
+                    nextFlowStep();
+                }
+            }, 2000);
+        }
+
+        // 停止演示
+        function stopFlowDemo() {
+            if (flowDemoInterval) {
+                clearInterval(flowDemoInterval);
+                flowDemoInterval = null;
+            }
+            isFlowDemoPlaying = false;
+        }
+
+        // 重置演示
+        function resetFlowDemo() {
+            stopFlowDemo();
+            currentFlowStep = 1;
+            updateFlowStep();
+            document.getElementById('flowCompletion').style.display = 'none';
+            document.querySelector('.flow-controls').style.display = 'flex';
+        }
+
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextFlowStep();
+            } else if (e.key === 'ArrowLeft') {
+                previousFlowStep();
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                playFlowDemo();
+            }
+        });
+
+        // 时序图动画控制函数
+        function playSequenceAnimation() {
+            const messages = document.querySelectorAll('.sequence-message');
+            const notes = document.querySelectorAll('.sequence-note');
+
+            // 重置所有消息和注释
+            messages.forEach(msg => {
+                msg.style.opacity = '0';
+                msg.style.animation = 'none';
+            });
+            notes.forEach(note => {
+                note.style.opacity = '0';
+                note.style.animation = 'none';
+            });
+
+            // 强制重绘
+            void document.body.offsetHeight;
+
+            // 重新播放动画
+            messages.forEach((msg, index) => {
+                msg.style.animation = `messageFadeIn 0.5s ease-out ${index * 0.8}s forwards`;
+            });
+
+            notes.forEach((note, index) => {
+                note.style.animation = `noteFadeIn 0.5s ease-out ${3 + index * 0.8}s forwards`;
+            });
+        }
+
+        // 页面加载时自动播放一次动画
+        window.addEventListener('load', () => {
+            setTimeout(playSequenceAnimation, 1000);
+        });
+    </script>
 </body>
 </html>
